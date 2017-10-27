@@ -66,3 +66,13 @@ def execute_actions(arguments):
 
 def print_help():
     parser.print_help()
+
+def add_all_configuration():
+    choices = list(subparsers.choices.values())
+    def execute_all(**kw):
+        for parser in choices:
+            parser.get_default('action')(**kw)
+
+    all = subparsers.add_parser('all', parents=[], conflict_handler='resolve', help='Executes all options using default arguments: {}'.format(list(subparsers.choices.keys())))
+    all.set_defaults(action=execute_all)
+    
