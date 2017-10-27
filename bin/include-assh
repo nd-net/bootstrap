@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+import yaml, os
+
+import argparse
+
+parser = argparse.ArgumentParser(description="Adds includes to an assh.yml file")
+
+parser.add_argument("-t", "--target", nargs='?', default="~/.ssh/assh.yml", help="The target assh configuration file to use. Uses %(default)s as default")
+parser.add_argument("includes", nargs="+", help="The files to include")
+
+args = parser.parse_args()
+
+target = os.path.expanduser(args.target)
+config = None
+if os.path.exists(target):
+    config = yaml.load(open(target, "rt"))
+if not config:
+    config = {}
+
+includes = config.setdefault("includes", [])
+changed = False
+for file in args.includes:
+    if file not in includes:
+        changed = True
+        includes.append(file)
+
+if changed:
+    with open(target, "wt") as file:
+        yaml.dump(config, file, indent=4, default_flow_style=False)

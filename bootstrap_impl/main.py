@@ -4,7 +4,7 @@ __all__ = [
 
 from . import action
 # order here is important: the order in which these imports are made is the order in which they are shown and executed
-from . import brew, dropbox, pip, karabiner, xcode, xonsh, launch
+from . import brew, dropbox, pip, karabiner, ssh, xcode, xonsh, launch
 
 def main():
     action.add_all_configuration()
