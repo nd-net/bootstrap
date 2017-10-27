@@ -45,4 +45,24 @@ def ensure_path_exists(filename):
     if exists(targetdir):
         return
     os.makedirs(abspath(targetdir))
+
+def compactuser(path):
+    """
+    Compacts the path to use a ~ for its user, if applicable. Otherwise, this returns the path feed into it.
     
+    >>> expanded = expanduser('~/foo/bar')
+    >>> compactuser(expanded)
+    '~/foo/bar'
+    >>> compactuser('~/foo/bar')
+    '~/foo/bar'
+    >>> compactuser('/foo/bar')
+    '/foo/bar'
+    """
+    userPath = expanduser('~')
+    otherPath = expanduser(path)
+    
+    prefix = commonprefix([userPath, otherPath])
+    if prefix == userPath:
+        return '~' + otherPath[len(prefix):]
+    else:
+        return otherPath

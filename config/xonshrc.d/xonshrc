@@ -1,0 +1,52 @@
+$d = "~/Development"
+$icloud = '~/Library/Mobile Documents/com~apple~CloudDocs'
+
+def _relpath(*args):
+    import os.path
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), *args))
+
+$PATH += [
+    "/usr/local/bin",
+    "/usr/sbin",
+	"/sbin",
+	"~/bin",
+    "~/.fastlane/bin",
+    _relpath('..', '..', 'bin')
+]
+
+# Xonsh-Configuration variables
+
+$AUTO_PUSHD = True
+#$COMPLETIONS_CONFIRM = True
+$XONSH_AUTOPAIR = False
+$XONSH_COLOR_STYLE =  "native" #"fruity"
+$DYNAMIC_CWD_WIDTH = '25%'
+$XONSH_STDERR_PREFIX = "{BACKGROUND_RED}"
+$XONSH_STDERR_POSTFIX = "{NO_COLOR}"
+
+# prompt
+
+if $PROMPT_FIELDS['prompt_end'] == '#':
+    $PROMPT_FIELDS['prompt_end'] = '{RED}#'
+else:
+    $PROMPT_FIELDS['prompt_end'] = '{INTENSE_GREEN}$'
+
+$PROMPT = "{env_name:{} }{BLUE}{short_cwd} {prompt_end}{NO_COLOR} "
+$BOTTOM_TOOLBAR = "{$XONSH_VERSION} {INTENSE_YELLOW}{user}{BOLD_GREEN}@{#ff1493}{hostname}{gitstatus:{{BOLD_GREEN}}|{}}"
+
+$MULTILINE_PROMPT='{INTENSE_GREEN}.'
+
+# other variables
+
+$CLICOLOR = True
+$LSCOLORS = "gxfxcxcxbxehbhAbcbCgBg" # from http://geoff.greer.fm/lscolors/"
+$EDITOR = "/usr/local/bin/mate"
+$VISUAL = "$EDITOR -w -l"
+
+# aliases
+
+aliases["grep"] = "grep --color=auto"
+aliases["rt"] = "rmtrash"
+aliases["cdf"] = lambda: aliases["cd"]([$(pwdf)[:-1]])
+
+del _relpath

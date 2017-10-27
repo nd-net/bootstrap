@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+
+import sys, pathlib
+import xml.etree.ElementTree as ET
+
+def indent(level):
+	return "\n" + "    " * level
+
+def format_path(data):
+	import re
+	comma = data.replace(",", " ")
+	minus = re.sub("(?<!e)-", " -", comma)
+	whitespace = re.sub(r"([a-df-zA-EF-Z])", r" \1 ", minus)
+	space = re.sub(r"\s+", " ", whitespace)
+	return re.sub(r"(?<=[zZ])", indent(3) + " " * 15, space).strip()
+
+def pretty_print(x):
+	import re
+	rough_string = ET.tostring(x, "utf-8").decode("utf-8")
+	newlines = rough_string.replace("&#10;", "\n")
+	# elementtree sorts the keys, this patches them back
+	return re.sub('(Data="[^"]*") (Fill="[^"]*")', r"\2 \1", newlines)
+
+def build_tree(svg, name):
+	dataTemplate = ET.Element("DataTemplate")
+	dataTemplate.attrib["x:Key"] = name
+	dataTemplate.text = indent(1)
+	comment = ET.Comment(f" Icons8: {name} ")
+	comment.tail = indent(1)
+	dataTemplate.append(comment)
+	viewbox = ET.SubElement(dataTemplate, "Viewbox")
+	viewbox.text = indent(2)
+	viewbox.tail = indent(0)
+	canvas = ET.SubElement(viewbox, "Canvas")
+	canvas.text = indent(3)
+	canvas.tail = indent(1)
+
+	top, left, width, height = svg.attrib["viewBox"].split(" ")
+	canvas.attrib["Width"] = width
+	canvas.attrib["Height"] = height
+	for svgpath in svg.findall("{http://www.w3.org/2000/svg}path"):
+		path = ET.SubElement(canvas, "Path")
+		path.tail = indent(2)
+		path.attrib["Fill"] = svgpath.attrib["fill"]
+		path.attrib["Data"] = format_path(svgpath.attrib["d"])
+	return dataTemplate
+	
+ET.register_namespace("x", "http://schemas.microsoft.com/winfx/2006/xaml")
+
+file = sys.argv[1]
+name = pathlib.Path(file).stem
+
+svg = ET.parse(file).getroot()
+dataTemplate = build_tree(svg, name)
+
+print(pretty_print(dataTemplate))
