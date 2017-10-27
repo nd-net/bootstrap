@@ -13,7 +13,7 @@ def read_plist(plist):
 @action(
     setting="the setting used as default setting"
 )
-def termsettings(setting=setting):
+def terminal_settings(setting=setting):
     """
     Configures the default setting of terminal to be a given setting
     """

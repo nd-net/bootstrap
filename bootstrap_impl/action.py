@@ -38,8 +38,8 @@ def action(arg=None, **kw):
         return parser
 
     def add_parser(fn):
-        name = arg if arg else fn.__name__
-        subparser = subparsers.add_parser(name, help=fn.__doc__)
+        name = arg if arg else fn.__name__.replace("_", "-")
+        subparser = subparsers.add_parser(name, help=fn.__doc__, description=fn.__doc__)
         subparser.set_defaults(action=fn)
         
         import inspect
