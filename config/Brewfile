@@ -1,0 +1,101 @@
+tap 'homebrew/bundle'
+tap 'homebrew/core'
+tap 'caskroom/drivers'
+
+# Standard Brews
+brew 'assh'
+brew 'bash-completion'
+brew 'clang-format'
+brew 'csshx'
+brew 'git'
+brew 'm-cli'
+brew 'mobile-shell'
+brew 'p7zip'
+brew 'python3'
+brew 'rmtrash'
+brew 'tag'
+brew 'terminal-notifier'
+brew 'testdisk'
+brew 'tldr'
+brew 'tmux'
+brew 'tree'
+brew 'xonsh'
+brew 'yasm'
+brew 'youtube-dl'
+
+# Brews that depend on Java
+cask 'java'
+brew 'gradle'
+
+# Casks
+cask '1password'                            # launch
+cask 'aerial'
+cask 'bartender'                            # launch
+cask 'carbon-copy-cloner'
+cask 'chocolat'
+cask 'coderunner'
+cask 'dash'
+cask 'dropbox'
+cask 'epubquicklook'
+cask 'forklift'                             # launch
+cask 'google-chrome'
+cask 'hazel'
+cask 'icons8'
+cask 'kaleidoscope'
+cask 'karabiner-elements'                   # launch:Karabiner-Elements
+cask 'launchbar'                            # launch
+cask 'logitech-options'                     # launch
+cask 'paw'                                  # launch
+cask 'pdfpen'
+cask 'soulver'                              # launch
+cask 'sourcetree'                           # launch
+cask 'textmate'
+cask 'ukelele'
+cask 'vagrant'
+cask 'virtualbox'
+cask 'vlc'
+cask 'wireshark'
+#cask 'scriptarian' # not yet available
+
+# Quicklook plugins
+cask 'betterzipql'
+cask 'qlcolorcode'
+cask 'qlgradle'
+cask 'qlimagesize'
+cask 'qlmarkdown'
+cask 'qlprettypatch'
+cask 'qlstephen'                            # Preview plain text files without or with unknown file extension.
+cask 'qlswift'
+cask 'qlvideo'
+cask 'quicklook-csv'
+cask 'quicklook-json'
+cask 'suspicious-package'
+
+# Fonts
+tap 'caskroom/fonts'
+cask 'font-source-code-pro'
+cask 'font-source-sans-pro'
+cask 'font-fira-code'
+
+# Mac App Store
+mas '1Blocker',             id: 1107421413 # launch
+mas 'Affinity Designer',    id: 824171161
+mas 'Apple Configurator 2', id: 1037126344
+mas 'DaisyDisk',            id: 411643860
+mas 'Day One',              id: 1055511498
+mas 'Deliveries',           id: 924726344
+mas 'Fantastical 2',        id: 975937182   # launch
+mas 'JSON Editor',          id: 567740330
+mas 'Just Press Record',    id: 979561272
+mas 'Magic Number 2',       id: 737047715
+mas 'MindNode',             id: 992076693
+mas 'MS Remote Desktop',    id: 715768417
+mas 'Pixelmator',           id: 407963104
+mas 'Reeder',               id: 880001334
+mas 'Screens',              id: 446107677
+mas 'SSH Config Editor',    id: 1109319285
+mas 'The Archive Browser',  id: 510232205
+mas 'The Unarchiver',       id: 425424353
+mas 'Tweetbot',             id: 557168941
+mas 'Xcode',                id: 497799835
+mas 'xScope',               id: 447661441
