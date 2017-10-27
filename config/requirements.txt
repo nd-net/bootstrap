@@ -1,0 +1,8 @@
+pipdate
+pygments
+xonsh[ptk]
+ipython
+ipython-genutils
+gnureadline
+appscript
+pyyaml
