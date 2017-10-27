@@ -30,3 +30,19 @@ def expandusers(filename):
         return expanduser(filename)
     except (TypeError, AttributeError):
         return [expanduser(name) for name in filename]
+
+def existing(paths):
+    """
+    Returns only the existing paths.
+    """
+    return [path for path in paths if exists(path)]
+
+def ensure_path_exists(filename):
+    """
+    Ensures that the given filename can be written to
+    """
+    targetdir = dirname(expanduser(filename))
+    if exists(targetdir):
+        return
+    os.makedirs(abspath(targetdir))
+    

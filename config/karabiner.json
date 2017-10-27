@@ -1,0 +1,38 @@
+{
+    "global": {
+        "show_in_menu_bar": false
+    },
+    "profiles": [
+        {
+            "simple_modifications": [
+                {
+                    "from": {
+                        "key_code": "application"
+                    },
+                    "to": {
+                        "key_code": "right_command"
+                    }
+                },
+                {
+                    "from": {
+                        "key_code": "caps_lock"
+                    },
+                    "to": {
+                        "key_code": "escape"
+                    }
+                },
+                {
+                    "from": {
+                        "key_code": "keypad_num_lock"
+                    },
+                    "to": {
+                        "key_code": "fn"
+                    }
+                }
+            ],
+            "virtual_hid_keyboard": {
+                "keyboard_type": "iso"
+            }
+        }
+    ]
+}

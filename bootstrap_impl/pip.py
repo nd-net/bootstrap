@@ -11,10 +11,9 @@ def pip(requirements=requirements):
     Installs Python 3 modules via pip3 as defined in the requirements file.
     This requires Python 3 on your system and installs it via homebrew if necessary. 
     """
+    existingRequirements = path.existing(path.expandusers(requirements))
     args = ["pip3", "install"]
-    for requirement in requirements:
-        if not path.exists(requirement):
-            continue
+    for requirement in existingRequirements:
         args.append("--requirement")
         args.append(requirement)
     try:
