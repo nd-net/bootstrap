@@ -1,5 +1,6 @@
 from .action import action
 from . import path, tools
+import subprocess
 
 setting = path.configfiles("The Terminal.terminal")[0]
 
@@ -17,27 +18,27 @@ def terminal_settings(setting=setting):
     """
     Configures the default setting of terminal to be a given setting
     """
-    plist = "~/Library/Preferences/com.apple.Terminal.plist"
+    plist = path.expanduser("~/Library/Preferences/com.apple.Terminal.plist")
+    expandedSetting = path.expanduser(setting)
+    
     sleeptime = 1
-    if not path.exists(setting):
+    if not path.exists(expandedSetting):
         print("The terminal setting {} does not exist".format(setting))
         return
-    settingName = path.splitext(path.basename(setting))[0]
+    settingName = subprocess.check_output(["/usr/libexec/PlistBuddy", expandedSetting, "-c", "print :name"]).strip()
     
-    xml = read_plist(plist)
-    if settingName in xml.get("Window Settings", {}):
-        print("{} is already a known terminal setting".format(settingName))
-    else:
-        import time
-        print("Importing {} and waiting until {} is present".format(setting, settingName))
-        tools.run("open", path.expanduser(setting))
-        while settingName not in xml.get("Window Settings", {}):
-            time.sleep(sleeptime)
-            xml = read_plist(plist)
-        print("{} is now present".format(settingName))
+    commands = [
+        'add ":Window Settings:{}" dict',
+        'merge "{1}" ":Window Settings:{0}"',
+        'set ":Default Window Settings" "{}"',
+        'set ":Startup Window Settings" "{}"'
+    ]
     
-    print("Applying default terminal settings")
-    tools.run(
-        "osascript", 
-        "-e",
-        'tell application "Terminal" to set default settings to settings set "{}"'.format(settingName))
+    args = []
+    for command in commands:
+        args.append("-c")
+        args.append(command.format(settingName, expandedSetting))
+    
+    print("Merging in setting {} from {}".format(settingName, setting))
+    tools.run("/usr/libexec/PlistBuddy", plist, *args)
+    
