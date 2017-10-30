@@ -11,29 +11,29 @@ def action(arg=None, **kw):
         return action(None, **kw)(arg)
     def add_argument(parser, name, default, help):
         with_dashes = name.replace("_", "-")
-        names = ['-{}'.format(name[0]), '--{}'.format(with_dashes)]
+        names = ["-{}".format(name[0]), "--{}".format(with_dashes)]
         args = dict(help=help, default=default, type=type(default), action="store")
         defaultstr = str(default)
         if type(help) is dict:
             args.update(help)
         if default == False:
-            args['action'] = 'store_true'
-            del args['type']
+            args["action"] = "store_true"
+            del args["type"]
         elif default == True:
-            help = args.get('help')
+            help = args.get("help")
             if help:
-                args['help'] = 'disable ' + help
-            args['action'] = 'store_false'
+                args["help"] = "disable " + help
+            args["action"] = "store_false"
             defaultstr = str(False)
-            del args['type']
+            del args["type"]
         elif type(default) is list:
-            args['nargs'] = '*'
+            args["nargs"] = "*"
             try:
-                args['type'] = type(default[0])
+                args["type"] = type(default[0])
             except:
-                del args['type']
+                del args["type"]
             defaultstr = "[{}]".format(", ".join(default))
-        args['help'] = '{help}\n(default: {defaultstr})'.format(defaultstr=defaultstr, **args)
+        args["help"] = "{help}\n(default: {defaultstr})".format(defaultstr=defaultstr, **args)
         parser.add_argument(*names, **args)
         return parser
 
@@ -59,7 +59,7 @@ def execute_actions(arguments):
     while rest:
         args, rest = parser.parse_known_args(rest, namespace=args)
         kw = dict(vars(args))
-        del kw['action']
+        del kw["action"]
         args.action(**kw)
         executed.append(args.action)
     return executed
@@ -71,8 +71,10 @@ def add_all_configuration():
     choices = list(subparsers.choices.values())
     def execute_all(**kw):
         for parser in choices:
-            parser.get_default('action')(**kw)
+            parser.get_default("action")(**kw)
 
-    all = subparsers.add_parser('all', parents=[], conflict_handler='resolve', help='Executes all options using default arguments: {}'.format(list(subparsers.choices.keys())))
+    all = subparsers.add_parser("all", parents=[], conflict_handler="resolve", help="Executes all options using default arguments: {}".format(list(subparsers.choices.keys())))
     all.set_defaults(action=execute_all)
     
+    help = subparsers.add_parser("help", help="Print help information. Similar to -h")
+    help.set_defaults(action=print_help)

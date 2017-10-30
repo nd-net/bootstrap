@@ -9,3 +9,14 @@ def xcode(xcode="/Applications/Xcode.app"):
     print("Selecting Xcode {}".format(xcode))
     tools.run("sudo", "xcode-select", "-switch", xcode)
     tools.run("sudo", "xcodebuild", "-license", "accept")
+
+@action.action(
+    devices="The devices to delete. Use 'unavailable' to specify all devices that are not available in Xcode anymore."
+)
+def delete_ios_simulators(devices=["unavailable"]):
+    """
+    Deletes the given devices from the Xcode simulators.
+    """
+    print("Deleting Xcode iOS simulators for {}".format(devices))
+    tools.run("xcrun", "simctl", "delete", *devices)
+    
