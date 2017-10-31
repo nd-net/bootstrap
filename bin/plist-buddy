@@ -49,6 +49,7 @@ def parse_args():
     return args
 
 def convert_args_for_plist_buddy(xml, commands, plist):
+    import os
     result = [ executable ]
     if xml:
         result.append("-x")
@@ -62,7 +63,7 @@ def convert_args_for_plist_buddy(xml, commands, plist):
             if stripped and not stripped.startswith("#"):
                 result.append("-c")
                 result.append(stripped)
-    result.append(plist)
+    result.append(os.path.expanduser(plist))
     return result
 
 def main():
