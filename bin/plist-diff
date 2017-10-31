@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import plistlib, os
+import os
 
 def diff(original, change):
 	if isinstance(change, dict):
@@ -54,7 +54,7 @@ def script(plist_buddy, plist, value, replace=False):
                 yield 'set "{}" {}'.format(path, value)
             yield 'add "{}" {} {}'.format(path, plistType, value)
             
-    return '#!{} "{}" -f\n{}'.format(plist_buddy, plist, "\n".join(generate(value, "")))
+    return '#!{} "{}" -f\n{}\n'.format(plist_buddy, plist, "\n".join(generate(value, "")))
 
 def compactuser(path):
     """
@@ -89,34 +89,48 @@ def parse_args():
     parser.add_argument("-o", "--out", metavar="script", default="-", type=argparse.FileType("wt"), help="The output file to use for the script generated. Default is stdout.")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-i", "--interactive", action="store_true", help="If true, then %(prog)s will start in interactive mode and will wait for a keypress to diff a file with itself.")
-    group.add_argument("original", nargs="?", type=argparse.FileType("rb"), help="The original plist file.")
-    parser.add_argument("target", type=argparse.FileType("rb"), help="The target plist file")
+    group.add_argument("original", nargs="?", help="The original plist file.")
+    parser.add_argument("target", help="The target plist file")
 
     args = parser.parse_args()
     
     return args
 
+def load_plist(filename):
+    import plistlib, sys
+    if filename == "-":
+        return plistlib.load(sys.stdin)
+    with open(filename, "rb") as file:
+        return plistlib.load(file)
+
 def main():
     args = parse_args()
     
-    plist = args.plist if args.plist else args.target.name
+    plist = args.plist if args.plist else args.target
     if not args.relative_path:
         plist = os.path.abspath(plist)
     if not args.literal_path:
         plist = compactuser(plist)
     
     if args.interactive:
-        originalPlist = plistlib.load(args.target)
-        args.target.seek(0)
+        originalPlist = load_plist(args.target)
         try:
             input("Loaded {}, press enter to reload it for a diff ".format(plist))
         except EOFError:
             return
     else:
-        originalPlist = plistlib.load(args.original)
+        originalPlist = load_plist(args.original)
     
-    targetPlist = plistlib.load(args.target)
-    d = diff(originalPlist, targetPlist)
+    retry = True
+    while retry:
+        targetPlist = load_plist(args.target)
+        d = diff(originalPlist, targetPlist)
+        retry = False
+        if args.interactive:
+            try:
+                retry = input("Diff is {}, press y to reload it for another diff ".format(d)).strip().lower() == "y"
+            except EOFError:
+                return
     
     args.out.write(script(args.plist_buddy, plist, d))
 
