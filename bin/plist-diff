@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 
-import os
+import os, datetime
+
+class ListDiff:
+    
+    def __init__(self, target):
+        self.target = target
+    
+    def items(self):
+        return sorted(self.target.items())
 
 def diff(original, change):
     if isinstance(change, dict):
@@ -20,7 +28,7 @@ def diff(original, change):
     elif isinstance(change, list):
         if not isinstance(original, list):
             original = []
-        return [diff(dict(enumerate(original)), dict(enumerate(change)))]
+        return ListDiff(diff(dict(enumerate(original)), dict(enumerate(change))))
     else:
         return change
 
@@ -37,6 +45,8 @@ def script(plist_buddy, plist, value, replace=False):
         int: "integer",
         float: "real",
         str: "string",
+        bytes: "data",
+        datetime.datetime: "date"
     }
         
     def generate(value, path, indict=True):
@@ -44,17 +54,24 @@ def script(plist_buddy, plist, value, replace=False):
             yield from delete(path)
         elif isinstance(value, dict):
             yield from setnested(path, "dict", value.items(), indict)
+        elif isinstance(value, ListDiff):
+            yield from setnested(path, "array", value.items(), indict)
         elif isinstance(value, list):
-            yield from setnested(path, "array", sorted(value[0].items()), indict)
+            yield from setnested(path, "array", enumerate(value), indict)
         else:
             plistType = mapping[type(value)]
-            if replace or not indict:
+            doDelete = replace or not indict
+            if doDelete:
                 yield from delete(path)
-            else:
-                yield 'set "{}" {}'.format(path, value)
+            # add first, then set. This reduces the number of definite errors for non-existing keys from 1 to 0
             yield 'add "{}" {} {}'.format(path, plistType, value)
+            if not doDelete:
+                yield 'set "{}" {}'.format(path, value)
             
-    return '#!{} "{}" -f\n{}\n'.format(plist_buddy, plist, "\n".join(generate(value, "")))
+    return """#!{} "{}" -f\n
+#*-* coding: utf-8 *-*
+{}
+""".format(plist_buddy, plist, "\n".join(generate(value, "")))
 
 def compactuser(path):
     """
@@ -86,9 +103,11 @@ def parse_args():
     parser.add_argument("-p", "--plist", metavar="file.plist", help="The plist file to use in the script. Default is the name of the target plist file passed in.")
     parser.add_argument("-r", "--relative-path", action="store_true", help="If true, then this tool will use the literal path for plist. Otherwise, the path will use the absolute path.")
     parser.add_argument("-l", "--literal-path", action="store_true", help="If true, then this tool will use the literal path for plist. Otherwise, the path will be shortened to be a user path.")
-    parser.add_argument("-o", "--out", metavar="script", default="-", type=argparse.FileType("wt"), help="The output file to use for the script generated. Default is stdout.")
+    parser.add_argument("-D", "--delete-existing-entries", action="store_true", help="If true, then this tool will delete existing entries and add new ones. Otherwise it will set existing entries and add new ones (that may fail).")
+    parser.add_argument("-o", "--out", metavar="script", default="-", type=argparse.FileType("wt", encoding="utf-8"), help="The output file to use for the script generated. Default is stdout.")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-i", "--interactive", action="store_true", help="If true, then %(prog)s will start in interactive mode and will wait for a keypress to diff a file with itself.")
+    group.add_argument("-0", "--diff-against-empty", action="store_true", help="If true, then original will be assumed to be an empty dict.")
     group.add_argument("original", nargs="?", help="The original plist file.")
     parser.add_argument("target", help="The target plist file")
 
@@ -118,6 +137,8 @@ def main():
             input("Loaded {}, press enter to reload it for a diff ".format(plist))
         except EOFError:
             return
+    elif args.diff_against_empty:
+        originalPlist = {}
     else:
         originalPlist = load_plist(args.original)
     
@@ -132,7 +153,7 @@ def main():
             except EOFError:
                 return
     
-    args.out.write(script(args.plist_buddy, plist, d))
+    args.out.write(script(args.plist_buddy, plist, d, args.delete_existing_entries))
 
 if __name__ == "__main__":
     main()

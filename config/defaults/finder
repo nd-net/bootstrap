@@ -2,25 +2,26 @@
 # partly taken from https://github.com/mathiasbynens/dotfiles/blob/master/.macos
 
 # Set home directory as the default location for new Finder windows
-set ":NewWindowTarget" PfHm
 add ":NewWindowTarget" string PfHm
-set ":NewWindowTargetPath" file://${HOME}
+set ":NewWindowTarget" PfHm
 add ":NewWindowTargetPath" string file://${HOME}
+set ":NewWindowTargetPath" file://${HOME}
 
-set ":ShowExternalHardDrivesOnDesktop" True
 add ":ShowExternalHardDrivesOnDesktop" bool True
-set ":ShowHardDrivesOnDesktop" True
+set ":ShowExternalHardDrivesOnDesktop" True
 add ":ShowHardDrivesOnDesktop" bool True
-set ":ShowRemovableMediaOnDesktop" True
+set ":ShowHardDrivesOnDesktop" True
 add ":ShowRemovableMediaOnDesktop" True
+set ":ShowRemovableMediaOnDesktop" True
 
-set ":FinderSpawnTab" False
 add ":FinderSpawnTab" bool False
+set ":FinderSpawnTab" False
 
-set ":ShowStatusBar" True
 add ":ShowStatusBar" bool True
+set ":ShowStatusBar" True
 
 # Use columns as preferred view style
+add ":FXPreferredViewStyle" string clmv
 set ":FXPreferredViewStyle" clmv
 
 # Expand all of the File Info panes:
