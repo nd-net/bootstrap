@@ -51,18 +51,30 @@ def parse_args():
 def convert_args_for_plist_buddy(xml, commands, plist):
     import os
     result = [ executable ]
+    standardencoding = "utf-8"
+    
     if xml:
         result.append("-x")
     for command in commands:
         try:
             lines = command.readlines()
+            fileencoding = standardencoding
         except:
             lines = [ command ]
         for line in lines:
             stripped = line.strip()
-            if stripped and not stripped.startswith("#"):
-                result.append("-c")
-                result.append(stripped)
+            if not stripped:
+                continue
+            # don't use startswith because that may throw exceptions if the stripped line does not contain ascii
+            if stripped[0] == "#":
+                import re
+                # this regular expression is taken from https://www.python.org/dev/peps/pep-0263/
+                coding = re.findall(r"^[ \t\v]*#.*?coding[:=][ \t]*([-_.a-zA-Z0-9]+)", stripped) or [ fileencoding ]
+                fileencoding = coding[-1]
+                continue
+            stripped = stripped.decode(fileencoding)
+            result.append("-c")
+            result.append(stripped)
     result.append(os.path.expanduser(plist))
     return result
 
