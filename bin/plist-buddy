@@ -41,6 +41,8 @@ def parse_args():
     parser.add_argument("-c", "--command", dest="commands", metavar="command", default=[], action="append", help="Execute command and exit.")
     parser.add_argument("-x", "--xml", action="store_true", help="Output will be in the form of an xml plist where appropriate.")
     parser.add_argument("-f", "--file", dest="commands", metavar="file", default=[], action="append", type=argparse.FileType("rt"), help="Execute commands from file and exit.")
+    parser.add_argument("-S", "--superuser", action="store_true", help="Use sudo to invoke PlistBuddy.")
+    parser.add_argument("-E", "--expand-variables", action="store_true", help="Expand environment variables in the form $var or ${var}.")
     parser.add_argument("-v", "--verbose", action="count", help="Show a verbose list of things that are being done.")
     parser.add_argument("plist", metavar="file.plist")
 
@@ -48,40 +50,45 @@ def parse_args():
     
     return args
 
-def convert_args_for_plist_buddy(xml, commands, plist):
+def convert_args_for_plist_buddy(args):
     import os
-    result = [ executable ]
+    result = []
+    if args.superuser:
+        result.append("/usr/bin/sudo")
+    result.append(executable)
     standardencoding = "utf-8"
     
-    if xml:
+    if args.xml:
         result.append("-x")
-    for command in commands:
+    for command in args.commands:
         try:
             lines = command.readlines()
             fileencoding = standardencoding
         except:
             lines = [ command ]
         for line in lines:
-            stripped = line.strip()
-            if not stripped:
+            line = line.strip()
+            if not line:
                 continue
             # don't use startswith because that may throw exceptions if the stripped line does not contain ascii
-            if stripped[0] == "#":
+            if line[0] == "#":
                 import re
                 # this regular expression is taken from https://www.python.org/dev/peps/pep-0263/
-                coding = re.findall(r"^[ \t\v]*#.*?coding[:=][ \t]*([-_.a-zA-Z0-9]+)", stripped) or [ fileencoding ]
+                coding = re.findall(r"^[ \t\v]*#.*?coding[:=][ \t]*([-_.a-zA-Z0-9]+)", line) or [ fileencoding ]
                 fileencoding = coding[-1]
                 continue
-            stripped = stripped.decode(fileencoding)
+            line = line.decode(fileencoding)
+            if args.expand_variables:
+                line = os.path.expandvars(line)
             result.append("-c")
-            result.append(stripped)
-    result.append(os.path.expanduser(plist))
+            result.append(line)
+    result.append(os.path.expanduser(args.plist))
     return result
 
 def main():
     import subprocess
     args = parse_args()
-    call_args = convert_args_for_plist_buddy(args.xml, args.commands, args.plist)
+    call_args = convert_args_for_plist_buddy(args)
     if (args.verbose):
         print("Calling {}".format(" ".join('"{}"'.format(i) if " " in i else i for i in call_args)))
     subprocess.call(call_args)

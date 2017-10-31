@@ -3,26 +3,26 @@
 import os
 
 def diff(original, change):
-	if isinstance(change, dict):
-		if not isinstance(original, dict):
-			return change
-		result = {}
-		for key in set(original.keys()) - set(change.keys()):
-			result[key] = None
-			
-		for key, value in change.items():
-			originalValue = original.get(key)
-			if originalValue is None:
-				result[key] = value
-			elif originalValue != value:
-				result[key] = diff(originalValue, value)
-		return result
-	elif isinstance(change, list):
-		if not isinstance(original, list):
-			original = []
-		return [diff(dict(enumerate(original)), dict(enumerate(change)))]
-	else:
-		return change
+    if isinstance(change, dict):
+        if not isinstance(original, dict):
+            return change
+        result = {}
+        for key in set(original.keys()) - set(change.keys()):
+            result[key] = None
+            
+        for key, value in change.items():
+            originalValue = original.get(key)
+            if originalValue is None:
+                result[key] = value
+            elif originalValue != value:
+                result[key] = diff(originalValue, value)
+        return result
+    elif isinstance(change, list):
+        if not isinstance(original, list):
+            original = []
+        return [diff(dict(enumerate(original)), dict(enumerate(change)))]
+    else:
+        return change
 
 def script(plist_buddy, plist, value, replace=False):
     def delete(path):
