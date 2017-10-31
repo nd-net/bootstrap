@@ -1,0 +1,52 @@
+#!/usr/bin/env plist-buddy "~/Library/Preferences/com.apple.symbolichotkeys.plist" -f
+
+# Change the keyboard shortcuts for making screenshots to the Print Screen key (F14)
+# See also http://krypted.com/tag/plistbuddy/
+# and https://web.archive.org/web/20141112224103/http://hintsforums.macworld.com/showthread.php?t=114785
+
+add ":AppleSymbolicHotKeys" dict
+
+# Save picture of screen as file - ⌥F14 (was: Command, Shift, 3)
+add ":AppleSymbolicHotKeys:28" dict
+add ":AppleSymbolicHotKeys:28:value" dict
+add ":AppleSymbolicHotKeys:28:value:parameters" array
+delete ":AppleSymbolicHotKeys:28:value:parameters:0"
+add ":AppleSymbolicHotKeys:28:value:parameters:0" integer 65535
+delete ":AppleSymbolicHotKeys:28:value:parameters:1"
+add ":AppleSymbolicHotKeys:28:value:parameters:1" integer 107
+delete ":AppleSymbolicHotKeys:28:value:parameters:2"
+add ":AppleSymbolicHotKeys:28:value:parameters:2" integer 8912896
+
+# Copy picture of screen to clipboard - F14 (was: Command, Control, Shift, 3)
+add ":AppleSymbolicHotKeys:29" dict
+add ":AppleSymbolicHotKeys:29:value" dict
+add ":AppleSymbolicHotKeys:29:value:parameters" array
+delete ":AppleSymbolicHotKeys:29:value:parameters:0"
+add ":AppleSymbolicHotKeys:29:value:parameters:0" integer 65535
+delete ":AppleSymbolicHotKeys:29:value:parameters:1"
+add ":AppleSymbolicHotKeys:29:value:parameters:1" integer 107
+delete ":AppleSymbolicHotKeys:29:value:parameters:2"
+add ":AppleSymbolicHotKeys:29:value:parameters:2" integer 8388608
+
+# Save picture of selected area as file - ⌥⌘F14 (was: Command, Shift, 4)
+add ":AppleSymbolicHotKeys:30" dict
+add ":AppleSymbolicHotKeys:30:value" dict
+add ":AppleSymbolicHotKeys:30:value:parameters" array
+delete ":AppleSymbolicHotKeys:30:value:parameters:0"
+add ":AppleSymbolicHotKeys:30:value:parameters:0" integer 65535
+delete ":AppleSymbolicHotKeys:30:value:parameters:1"
+add ":AppleSymbolicHotKeys:30:value:parameters:1" integer 107
+delete ":AppleSymbolicHotKeys:30:value:parameters:2"
+add ":AppleSymbolicHotKeys:30:value:parameters:2" integer 9961472
+
+# Copy picture of selected area to clipboard - ⌘F14 (was: Command, Control, Shift, 4)
+add ":AppleSymbolicHotKeys:31" dict
+add ":AppleSymbolicHotKeys:31:value" dict
+add ":AppleSymbolicHotKeys:31:value:parameters" array
+delete ":AppleSymbolicHotKeys:31:value:parameters:0"
+add ":AppleSymbolicHotKeys:31:value:parameters:0" integer 65535
+delete ":AppleSymbolicHotKeys:31:value:parameters:1"
+add ":AppleSymbolicHotKeys:31:value:parameters:1" integer 107
+delete ":AppleSymbolicHotKeys:31:value:parameters:2"
+add ":AppleSymbolicHotKeys:31:value:parameters:2" integer 9437184
+
