@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+
+import plistlib
+
+def diff(change, original):
+	if isinstance(change, dict):
+		if not isinstance(original, dict):
+			return change
+		result = {}
+		for key in set(original.keys()) - set(change.keys()):
+			result[key] = None
+			
+		for key, value in change.items():
+			originalValue = original.get(key)
+			if originalValue is None:
+				result[key] = value
+			elif originalValue != value:
+				result[key] = diff(value, originalValue)
+		return result
+	elif isinstance(change, list):
+		if not isinstance(original, list):
+			original = []
+		return [diff(dict(enumerate(change)), dict(enumerate(original)))]
+	else:
+		return change
+
+def script(plist_buddy, plist, value, replace=False):
+    def delete(path):
+        yield 'delete "{}"'.format(path)
+    def setnested(path, type, items, indict):
+        if path and indict:
+            yield 'add "{}" {}'.format(path, type)
+        for key, value in items:
+            yield from generate(value, "{}:{}".format(path, key), type == "dict")
+    mapping = {
+        bool: "bool",
+        int: "integer",
+        float: "real",
+        str: "string",
+    }
+        
+    def generate(value, path, indict=True):
+        if value is None:
+            yield from delete(path)
+        elif isinstance(value, dict):
+            yield from setnested(path, "dict", value.items(), indict)
+        elif isinstance(value, list):
+            yield from setnested(path, "array", sorted(value[0].items()), indict)
+        else:
+            plistType = mapping[type(value)]
+            if replace or not indict:
+                yield from delete(path)
+            else:
+                yield 'set "{}" {}'.format(path, value)
+            yield 'add "{}" {} {}'.format(path, plistType, value)
+            
+    return '#!{} "{}" -f\n{}'.format(plist_buddy, plist, "\n".join(generate(value, "")))
+    
+def parse_args():
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="diff two plist files and create a plist-buddy script")
+    
+    parser.add_argument("-b", "--plist-buddy", metavar="executable", default="/usr/bin/env plist-buddy", help="The location of the plist-buddy executable used in the shebang. Default is %(default)s")
+    parser.add_argument("-p", "--plist", metavar="file.plist", help="The plist file to use in the script. Default is the name of the target plist file passed in.")
+    parser.add_argument("original", type=argparse.FileType("rb"), help="The original plist file")
+    parser.add_argument("target", type=argparse.FileType("rb"), help="The target plist file")
+
+    args = parser.parse_args()
+    
+    return args
+
+if __name__ == "__main__":
+    args = parse_args()
+    
+    originalPlist = plistlib.load(args.original)
+    targetPlist = plistlib.load(args.target)
+    
+    d = diff(originalPlist, targetPlist)
+    print(script(args.plist_buddy, args.plist or args.target.name, d))
