@@ -1,0 +1,40 @@
+#!/usr/bin/env plist-buddy "~/Library/Preferences/com.apple.finder.plist" -E -f
+# partly taken from https://github.com/mathiasbynens/dotfiles/blob/master/.macos
+
+# Set home directory as the default location for new Finder windows
+set ":NewWindowTarget" PfHm
+add ":NewWindowTarget" string PfHm
+set ":NewWindowTargetPath" file://${HOME}
+add ":NewWindowTargetPath" string file://${HOME}
+
+set ":ShowExternalHardDrivesOnDesktop" True
+add ":ShowExternalHardDrivesOnDesktop" bool True
+set ":ShowHardDrivesOnDesktop" True
+add ":ShowHardDrivesOnDesktop" bool True
+set ":ShowRemovableMediaOnDesktop" True
+add ":ShowRemovableMediaOnDesktop" True
+
+set ":FinderSpawnTab" False
+add ":FinderSpawnTab" bool False
+
+set ":ShowStatusBar" True
+add ":ShowStatusBar" bool True
+
+# Use columns as preferred view style
+set ":FXPreferredViewStyle" clmv
+
+# Expand all of the File Info panes:
+add ":FXInfoPanesExpanded" dict
+
+add ":FXInfoPanesExpanded:General" bool True
+set ":FXInfoPanesExpanded:General" True
+add ":FXInfoPanesExpanded:OpenWith" bool True
+set ":FXInfoPanesExpanded:OpenWith" True
+add ":FXInfoPanesExpanded:Privileges" bool True
+set ":FXInfoPanesExpanded:Privileges" True
+add ":FXInfoPanesExpanded:MetaData" bool True
+set ":FXInfoPanesExpanded:MetaData" True
+add ":FXInfoPanesExpanded:Name" bool True
+set ":FXInfoPanesExpanded:Name" True
+add ":FXInfoPanesExpanded:Comments" bool True
+set ":FXInfoPanesExpanded:Comments" True

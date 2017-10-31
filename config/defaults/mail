@@ -1,0 +1,8 @@
+#!/usr/bin/env plist-buddy "~/Library/Preferences/com.apple.mail.plist" -f
+#*-* coding: utf-8 *-*
+
+# Add the keyboard shortcut ⌘Enter to send an email in Mail.app
+add ":NSUserKeyEquivalents" dict
+add ":NSUserKeyEquivalents:Senden" string @↩
+set ":NSUserKeyEquivalents:Senden" @↩
+

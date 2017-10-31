@@ -1,0 +1,11 @@
+#!/usr/bin/env plist-buddy "/Library/Preferences/com.apple.loginwindow.plist" -s -f
+
+# Reveal IP address, hostname, OS version, etc. when clicking the clock
+# in the login window
+
+add :AdminHostInfo string HostName
+set :AdminHostInfo HostName
+
+# Show language menu in the top right corner of the boot screen
+add :showInputMenu bool True
+set :showInputMenu True

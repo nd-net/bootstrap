@@ -1,0 +1,14 @@
+#!/usr/bin/env plist-buddy "~/Library/Preferences/com.apple.Safari.plist" -f
+# partly taken from https://github.com/mathiasbynens/dotfiles/blob/master/.macos
+
+# Enable the Develop menu and the Web Inspector in Safari
+add :IncludeDevelopMenu bool True
+set :IncludeDevelopMenu True
+add :WebKitDeveloperExtrasEnabledPreferenceKey True
+set :WebKitDeveloperExtrasEnabledPreferenceKey bool True
+add :com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled True
+set :com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled bool True
+
+# Enable "Do not Track"
+add ":SendDoNotTrackHTTPHeader" bool True
+set ":SendDoNotTrackHTTPHeader" True
