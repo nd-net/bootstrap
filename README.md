@@ -7,3 +7,6 @@ Bootstrap prepares a new Mac to a working state with the following features:
 * *pip*: Installs Python 3 packages from a given ``requirements.txt``
 * *pipdate*: Updates all existing Python 3 packages
 
+# Installation
+
+Install the tool via ``curl -fsSL https://raw.githubusercontent.com/nd-net/bootstrap/master/bootstrap|/usr/bin/python -``

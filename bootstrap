@@ -59,7 +59,10 @@ def bootstrap_self():
     if not os.path.isfile(myself):    
         install_command_line_tools()
         do("/usr/bin/env", "git", "clone", "https://github.com/nd-net/bootstrap.git", destination)
-    os.execl(myself, *args[1])
+    if args[1]:
+        os.execl(myself, *args[1])
+    else:
+        os.execl(myself)
 
 if __name__ == '__main__':
     try:
