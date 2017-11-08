@@ -9,4 +9,4 @@ Bootstrap prepares a new Mac to a working state with the following features:
 
 # Installation
 
-Install the tool via ``curl -fsSL https://raw.githubusercontent.com/nd-net/bootstrap/master/bootstrap|/usr/bin/python -``
+Install the tool via ``curl -fsSL https://raw.githubusercontent.com/nd-net/bootstrap/master/bootstrap|/usr/bin/python - all``
