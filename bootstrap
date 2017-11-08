@@ -1,6 +1,69 @@
 #!/usr/bin/env python
 # PYTHON_ARGCOMPLETE_OK
+from __future__ import print_function, unicode_literals
+
+def do(*args):
+    import subprocess
+    return subprocess.check_output(args)
+
+def sudo(*args):
+    return do("/usr/bin/sudo", *args)
+
+def should_install_command_line_tools():
+    try:
+        import os.path
+        developer_dir = do("/usr/bin/xcode-select", "-print-path").strip().decode("utf-8")
+        git = os.path.join(developer_dir, "usr/bin/git")
+        return not os.path.isfile(git)
+    except:
+        return True
+
+def install_command_line_tools():
+    if should_install_command_line_tools():
+        try:
+            import re
+            print("Searching online for the Command Line Tools")
+            # This temporary file prompts the 'softwareupdate' utility to list the Command Line Tools
+            clt_placeholder = "/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress"
+            sudo("/usr/bin/touch", clt_placeholder)
+            softwareupdate = do("/usr/sbin/softwareupdate", "-l")
+            clt_label = re.findall(r"\s*\*\s*(.*Command Line (?:Developer|Tools).*)\s*", softwareupdate)[-1]
+            print("Installing {}".format(clt_label))
+            sudo("/usr/sbin/softwareupdate", "-i", clt_label)
+            sudo("/bin/rm", "-f", clt_placeholder)
+        except:
+            pass
+    
+    # Headless install may have failed, so fallback to original 'xcode-select' method
+    if should_install_command_line_tools():
+        print("Installing the Command Line Tools (expect a GUI popup):")
+        sudo("/usr/bin/xcode-select", "--install")
+        print("Press any key when the installation has completed.")
+        try:
+            raw_input()
+        except NameError:
+            input()
+    sudo("/usr/bin/xcode-select", "--switch", "/Library/Developer/CommandLineTools")
+
+def bootstrap_self():
+    import argparse, os, sys
+    
+    parser = argparse.ArgumentParser(description="Install bootstrap.")
+    parser.add_argument("--bootstrap-destination", metavar="path", default="~/Library/bootstrap", help="The destination for the bootstrap installation. Default: %(default)s")
+    
+    args = parser.parse_known_args()
+    
+    destination = os.path.expanduser(args[0].bootstrap_destination)
+    myself = os.path.join(destination, "bootstrap")
+    
+    if not os.path.isfile(myself):    
+        install_command_line_tools()
+        do("/usr/bin/env", "git", "clone", "https://github.com/nd-net/bootstrap.git", destination)
+    os.execl(myself, *args[1])
 
 if __name__ == '__main__':
-    import bootstrap_impl
-    bootstrap_impl.main()
+    try:
+        import bootstrap_impl
+        bootstrap_impl.main()
+    except ImportError:
+        bootstrap_self()
