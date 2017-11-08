@@ -56,13 +56,12 @@ def bootstrap_self():
     destination = os.path.expanduser(args[0].bootstrap_destination)
     myself = os.path.join(destination, "bootstrap")
     
-    if not os.path.isfile(myself):    
+    if not os.path.isfile(myself):
         install_command_line_tools()
-        do("/usr/bin/env", "git", "clone", "https://github.com/nd-net/bootstrap.git", destination)
-    if args[1]:
-        os.execl(myself, *args[1])
-    else:
-        os.execl(myself)
+        repository = "https://github.com/nd-net/bootstrap.git"
+        print("Cloning {} into {}".format(repository, destination))
+        do("/usr/bin/env", "git", "clone", repository, destination)
+    os.execv(myself, [ myself ] + args[1])
 
 if __name__ == '__main__':
     try:
