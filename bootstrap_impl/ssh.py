@@ -64,7 +64,7 @@ def ssh_keygen(type="rsa", keysize=4096, idfile=None, urls=ssh_registration_urls
     else:
         print("SSH key file {} does not exist, creating new one with {} and size {}".format(idfile, type, keysize))
         tools.run("ssh-keygen", "-t", type, "-b", str(keysize), "-f", idfile)
-    if not open_urls:
+    if not open_urls_for_existing_file:
         print("Skipping SSH key registration")
         return
     print("Copying SSH key into clipboard")
