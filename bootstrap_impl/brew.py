@@ -31,7 +31,8 @@ def brew(brewfiles=brewfiles, update=True, cleanup=True):
     for brewfile in path.expandusers(brewfiles):
         if not path.exists(brewfile):
             continue
-        tools.run("brew", "bundle", "--verbose", "--file=" + brewfile)
+        print("Installing bundle {}".format(brewfile))
+        tools.run("brew", "bundle", "--verbose", "--file={}".format(brewfile))
     if update:
         tools.run("brew", "upgrade")
     if cleanup:
