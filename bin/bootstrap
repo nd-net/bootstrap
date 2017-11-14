@@ -1,1 +1,2 @@
-../bootstrap
+#!/bin/sh
+"$(dirname $0)/../bootstrap" "$@"
