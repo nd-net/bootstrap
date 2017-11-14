@@ -68,12 +68,17 @@ def print_help():
     parser.print_help()
 
 def add_all_configuration():
-    choices = list(subparsers.choices.values())
+    called = list(subparsers.choices.keys())
+    try:
+        called.remove("edit")
+    except ValueError:
+        pass
     def execute_all(**kw):
-        for parser in choices:
+        for name in called:
+            parser = subparsers.choices[name]
             parser.get_default("action")(**kw)
 
-    all = subparsers.add_parser("all", parents=[], conflict_handler="resolve", help="Executes all options using default arguments: {}".format(list(subparsers.choices.keys())))
+    all = subparsers.add_parser("all", parents=[], conflict_handler="resolve", help="Executes all options using default arguments: {}".format(called))
     all.set_defaults(action=execute_all)
     
     help = subparsers.add_parser("help", help="Print help information. Similar to -h")
