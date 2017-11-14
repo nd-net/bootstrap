@@ -31,6 +31,7 @@ def install_command_line_tools():
             print("Installing {}".format(clt_label))
             sudo("/usr/sbin/softwareupdate", "-i", clt_label)
             sudo("/bin/rm", "-f", clt_placeholder)
+            sudo("/usr/bin/xcode-select", "--switch", "/Library/Developer/CommandLineTools")
         except:
             pass
     
@@ -43,7 +44,7 @@ def install_command_line_tools():
             raw_input()
         except NameError:
             input()
-    sudo("/usr/bin/xcode-select", "--switch", "/Library/Developer/CommandLineTools")
+        sudo("/usr/bin/xcode-select", "--switch", "/Library/Developer/CommandLineTools")
 
 def bootstrap_self():
     import argparse, os, sys
