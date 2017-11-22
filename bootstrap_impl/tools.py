@@ -11,8 +11,11 @@ def run(command, *args):
 def get_appleid(user=None):
     if not user:
         user = username
-    dscl = subprocess.check_output(["/usr/bin/env", "dscl", ".", "readpl", "/Users/{}".format(user), "dsAttrTypeNative:LinkedIdentity", "appleid.apple.com:linked identities"])
-    plist = dscl.split("\n", 1)[1]
-    appleid = plistlib.readPlistFromString(plist)
-    return appleid[0]["full name"]
-    
+    try:
+        dscl = subprocess.check_output(["/usr/bin/env", "dscl", ".", "readpl", "/Users/{}".format(user), "dsAttrTypeNative:LinkedIdentity", "appleid.apple.com:linked identities"])
+        plist = dscl.split("\n", 1)[1]
+        appleid = plistlib.readPlistFromString(plist)
+        return appleid[0]["full name"]
+    except:
+        return None
+        
