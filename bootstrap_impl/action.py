@@ -67,12 +67,13 @@ def execute_actions(arguments):
 def print_help():
     parser.print_help()
 
-def add_all_configuration():
+def add_all_configuration(*except_configuration):
     called = list(subparsers.choices.keys())
-    try:
-        called.remove("edit")
-    except ValueError:
-        pass
+    for config in except_configuration:
+        try:
+            called.remove(config)
+        except ValueError:
+            pass
     def execute_all(**kw):
         for name in called:
             parser = subparsers.choices[name]
