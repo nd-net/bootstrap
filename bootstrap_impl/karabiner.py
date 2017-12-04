@@ -1,9 +1,11 @@
-from . import action, tools, path
+from .action import *
+from . import tools, path
 
 configurations = path.configfiles("karabiner.json")
 target = "~/.config/karabiner/karabiner.json"
 
-@action.action(
+@default
+@action(
     configurations="The configurations to merge",
     target="The target configuration where into which the configurations should be merged"
 )

@@ -1,6 +1,8 @@
-from . import action, tools
+from .action import *
+from . import tools
 
-@action.action(
+@default
+@action(
     dropbox="The path to Dropbox"
 )
 def dropbox(dropbox="/Applications/Dropbox.app"):

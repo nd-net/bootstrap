@@ -1,8 +1,9 @@
-from .action import action
+from .action import *
 from . import path, tools
 
 requirements = path.configfiles("requirements.txt")
 
+@default
 @action(
     requirements="The files used for the requirements"
 )
@@ -23,6 +24,7 @@ def pip(requirements=requirements):
         tools.run("brew", "install", "python3")
         tools.run(*args)
 
+@default
 @action
 def pipdate():
     """

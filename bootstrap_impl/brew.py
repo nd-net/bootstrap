@@ -1,4 +1,4 @@
-from .action import action
+from .action import *
 from . import path, tools
 
 brewfiles = path.configfiles("Brewfile")
@@ -15,6 +15,7 @@ def ensure_brew_exists():
         script = response.read()
         tools.run('ruby', '-e', script)
 
+@default
 @action(
     brewfiles="The files to be used for homebrew",
     update="update existing homebrew packages",

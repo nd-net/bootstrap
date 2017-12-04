@@ -1,4 +1,5 @@
-from . import action, path, tools
+from .action import *
+from . import path, tools
 
 sources = path.configfiles("xonshrc.d")
 
@@ -29,7 +30,8 @@ def applySourceLines(rcfile, sourceLines):
     with open(expandedTarget, 'w+t') as rc:
         rc.write("".join(xonshrc))
 
-@action.action(
+@default
+@action(
     sources="The source files or directories to use",
     target="The target file where the configurations should be integrated",
     force="If enabled, then sources are not checked if they exist"
@@ -44,7 +46,8 @@ def xonshrc(sources=sources, target="~/.xonshrc", force=False):
     sourceLines = ["""source g`{}`\n""".format(source) for source in sources]
     applySourceLines(target, sourceLines)
 
-@action.action(
+@default
+@action(
     shell="The path to the target shell",
     force="Force chsh even if the shell's executable does not exist"
 )

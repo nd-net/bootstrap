@@ -1,9 +1,11 @@
-from . import action, path, tools
+from .action import *
+from . import path, tools
 
 assh_config = path.configfiles("assh.yml")
 ssh_registration_urls = ["https://uberspace.de/dashboard/authentication"]
 
-@action.action(
+@default
+@action(
     includes="The files that should be included in the assh configuration",
     target="The target file for the assh configuration",
     force="Use all specified includes, even those that don't exist"
@@ -30,7 +32,8 @@ def assh(target="~/.ssh/assh.yml", includes=assh_config, force=False):
         *toInclude
     )
 
-@action.action(
+@default
+@action(
     type=dict(
         help="specifies the type of key to create",
         choices=["dsa", "ecdsa", "ed25519", "rsa", "rsa1"]

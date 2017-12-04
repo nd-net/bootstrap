@@ -1,5 +1,8 @@
-from . import action, tools
-@action.action(
+from .action import *
+from . import tools
+
+@default
+@action(
     xcode=dict(help="The path to Xcode", metavar="path")
 )
 def xcode(xcode="/Applications/Xcode.app"):
@@ -10,7 +13,8 @@ def xcode(xcode="/Applications/Xcode.app"):
     tools.run("sudo", "xcode-select", "-switch", xcode)
     tools.run("sudo", "xcodebuild", "-license", "accept")
 
-@action.action(
+@default
+@action(
     devices="The devices to delete. Use 'unavailable' to specify all devices that are not available in Xcode anymore."
 )
 def delete_ios_simulators(devices=["unavailable"]):

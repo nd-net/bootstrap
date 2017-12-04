@@ -1,4 +1,5 @@
-from . import action, path, tools, brew
+from .action import *
+from . import path, tools, brew
 import subprocess
 
 def parse_brewfiles(brewfiles):
@@ -76,7 +77,8 @@ def launch_apps(appNames):
         print('Starting {}'.format(name))
         tools.run('open', name)
 
-@action.action(
+@default
+@action(
     brewfiles="The files to be used for homebrew"
 )
 def launch(brewfiles=brew.brewfiles):

@@ -1,10 +1,16 @@
 import argparse
 
-parser = argparse.ArgumentParser(
+_parser = argparse.ArgumentParser(
     description="""
         Performs a bootstrap installation of your system.
     """)
-subparsers = parser.add_subparsers()
+_subparsers = _parser.add_subparsers()
+
+_default_parsers = []
+
+def default(fn):
+    _default_parsers.append(fn.parser_name)
+    return fn
 
 def action(arg=None, **kw):
     if callable(arg):
@@ -38,8 +44,8 @@ def action(arg=None, **kw):
         return parser
 
     def add_parser(fn):
-        name = arg if arg else fn.__name__.replace("_", "-")
-        subparser = subparsers.add_parser(name, help=fn.__doc__, description=fn.__doc__)
+        action_name = arg if arg else fn.__name__.replace("_", "-")
+        subparser = _subparsers.add_parser(action_name, help=fn.__doc__, description=fn.__doc__)
         subparser.set_defaults(action=fn)
         
         import inspect
@@ -49,6 +55,7 @@ def action(arg=None, **kw):
                 add_argument(subparser, name, default, kw.get(name))
         
         fn.parser = subparser
+        fn.parser_name = action_name
         return fn
     return add_parser
 
@@ -57,7 +64,7 @@ def execute_actions(arguments):
     args = argparse.Namespace()
     executed = []
     while rest:
-        args, rest = parser.parse_known_args(rest, namespace=args)
+        args, rest = _parser.parse_known_args(rest, namespace=args)
         kw = dict(vars(args))
         del kw["action"]
         args.action(**kw)
@@ -65,22 +72,21 @@ def execute_actions(arguments):
     return executed
 
 def print_help():
-    parser.print_help()
+    _parser.print_help()
 
 def add_all_configuration(*except_configuration):
-    called = list(subparsers.choices.keys())
     for config in except_configuration:
         try:
-            called.remove(config)
+            _default_parsers.remove(config)
         except ValueError:
             pass
     def execute_all(**kw):
-        for name in called:
-            parser = subparsers.choices[name]
+        for name in _default_parsers:
+            parser = _subparsers.choices[name]
             parser.get_default("action")(**kw)
 
-    all = subparsers.add_parser("all", parents=[], conflict_handler="resolve", help="Executes all options using default arguments: {}".format(called))
+    all = _subparsers.add_parser("all", parents=[], conflict_handler="resolve", help="Executes all options using default arguments: {}".format(_default_parsers))
     all.set_defaults(action=execute_all)
     
-    help = subparsers.add_parser("help", help="Print help information. Similar to -h")
+    help = _subparsers.add_parser("help", help="Print help information. Similar to -h")
     help.set_defaults(action=print_help)

@@ -1,6 +1,7 @@
-from .action import action
+from .action import *
 from . import path, tools
-    
+
+@default
 @action(
     username="The OS's user name to check"
 )

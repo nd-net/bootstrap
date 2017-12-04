@@ -1,4 +1,4 @@
-from .action import action
+from .action import *
 from . import path, tools
 
 @action()

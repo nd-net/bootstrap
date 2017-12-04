@@ -1,4 +1,4 @@
-from .action import action
+from .action import *
 from . import path, tools
 import subprocess
 
@@ -11,6 +11,7 @@ def read_plist(plist):
     xml = subprocess.check_output(args)
     return plistlib.readPlistFromString(xml)
 
+@default
 @action(
     setting="the setting used as default setting"
 )

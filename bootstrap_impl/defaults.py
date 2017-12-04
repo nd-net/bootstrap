@@ -1,4 +1,4 @@
-from .action import action
+from .action import *
 from . import path, tools
 
 default_paths = path.configfiles("defaults/*")
@@ -30,7 +30,8 @@ def get_default_files(default_paths):
     
     files.sort(key=path.basename)
     return files
-            
+
+@default
 @action(
     default_paths=dict(
         help="the paths used for default files, with possible glob characters",
