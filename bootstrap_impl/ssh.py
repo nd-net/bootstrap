@@ -34,16 +34,16 @@ def assh(target="~/.ssh/assh.yml", includes=assh_config, force=False):
 
 @default
 @action(
-    type=dict(
+    type=argument(
         help="specifies the type of key to create",
         choices=["dsa", "ecdsa", "ed25519", "rsa", "rsa1"]
     ),
-    keysize=dict(
+    keysize=argument(
         help="specifies the number of bits in the key to create",
         metavar="bits"
     ),
     idfile="the name of the SSH key file. If not specified, then this will be retrieved from the type",
-    urls=dict(
+    urls=argument(
         help="when creating a new SSH key pair, the public key gets copied into the clipboard and these websites are opened",
         metavar="url"
     ),

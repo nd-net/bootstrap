@@ -3,7 +3,7 @@ from . import tools
 
 @default
 @action(
-    xcode=dict(help="The path to Xcode", metavar="path")
+    xcode=argument(help="The path to Xcode", metavar="path")
 )
 def xcode(xcode="/Applications/Xcode.app"):
     """

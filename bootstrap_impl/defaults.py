@@ -33,7 +33,7 @@ def get_default_files(default_paths):
 
 @default
 @action(
-    default_paths=dict(
+    default_paths=argument(
         help="the paths used for default files, with possible glob characters",
         metavar="file"
     )

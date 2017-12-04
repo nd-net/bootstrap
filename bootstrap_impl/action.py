@@ -8,6 +8,9 @@ _subparsers = _parser.add_subparsers()
 
 _default_parsers = []
 
+def argument(help=None, metavar=None, choices=None, nargs=None, required=None):
+    return dict(kv for kv in vars().items() if kv[1])
+
 def default(fn):
     _default_parsers.append(fn.parser_name)
     return fn
