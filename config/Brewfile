@@ -79,23 +79,23 @@ cask 'font-fira-code'
 
 # Mac App Store
 mas '1Blocker',             id: 1107421413 # launch
-mas 'Affinity Designer',    id: 824171161
+mas 'Affinity Designer',    id:  824171161
 mas 'Apple Configurator 2', id: 1037126344
-mas 'DaisyDisk',            id: 411643860
+mas 'DaisyDisk',            id:  411643860
 mas 'Day One',              id: 1055511498
-mas 'Deliveries',           id: 924726344
-mas 'Fantastical 2',        id: 975937182   # launch
-mas 'JSON Editor',          id: 567740330
-mas 'Just Press Record',    id: 979561272
-mas 'Magic Number 2',       id: 737047715
-mas 'MindNode',             id: 992076693
-mas 'MS Remote Desktop',    id: 715768417
-mas 'Pixelmator',           id: 407963104
-mas 'Reeder',               id: 880001334
-mas 'Screens',              id: 446107677
+mas 'Deliveries',           id:  924726344
+mas 'Fantastical 2',        id:  975937182 # launch
+mas 'JSON Editor',          id:  567740330
+mas 'Just Press Record',    id:  979561272
+mas 'Magic Number 2',       id:  737047715
+mas 'MindNode 5',           id: 1289197285
+mas 'MS Remote Desktop',    id:  715768417
+mas 'Pixelmator',           id:  407963104
+mas 'Reeder',               id:  880001334
+mas 'Screens',              id:  446107677
 mas 'SSH Config Editor',    id: 1109319285
-mas 'The Archive Browser',  id: 510232205
-mas 'The Unarchiver',       id: 425424353
-mas 'Tweetbot',             id: 557168941
-mas 'Xcode',                id: 497799835
-mas 'xScope',               id: 447661441
+mas 'The Archive Browser',  id:  510232205
+mas 'The Unarchiver',       id:  425424353
+mas 'Tweetbot',             id:  557168941
+mas 'Xcode',                id:  497799835
+mas 'xScope',               id:  447661441
