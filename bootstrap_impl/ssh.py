@@ -78,7 +78,7 @@ def ssh_keygen(type="ed25519", keysize=None, id_file="", pem=False, derivation_r
         if not open_urls_for_existing_file:
             return
     else:
-        params = ["-t", type, "-f", id_file];
+        params = ["ssh-keygen", "-t", type, "-f", id_file];
         if keysize:
             params += ["-b", str(keysize)]
         if not pem:
@@ -92,8 +92,8 @@ def ssh_keygen(type="ed25519", keysize=None, id_file="", pem=False, derivation_r
                 print("Using key derivation {} with PEM is not supported".format(derivation_rounds))
         if comment is not None:
             params += ["-C", comment]
-        print("SSH key file {} does not exist, creating new one with {}, format {} (with {} derivation rounds) and size {}".format(id_file, type, "PEM" if pem else "RFC4716", derivation_rounds or 0, keysize or "default"))
-        tools.run("ssh-keygen", *params)
+        print("SSH key file {} does not exist, creating new one with {}, format {} (with {} derivation rounds) and size {}\n{}".format(id_file, type, "PEM" if pem else "RFC4716", derivation_rounds or 0, keysize or "default", params))
+        tools.run(*params)
         
     print("Copying SSH key into clipboard")
     import subprocess
