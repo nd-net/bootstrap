@@ -40,16 +40,27 @@ def assh(target="~/.ssh/assh.yml", includes=assh_config, force=False):
     ),
     keysize=argument(
         help="specifies the number of bits in the key to create",
-        metavar="bits"
+        metavar="bits",
+        type=int
     ),
-    idfile="the name of the SSH key file. If not specified, then this will be retrieved from the type",
+    id_file="the name of the SSH key file. If not specified, then this will be retrieved from the type",
+    pem="save the private keys in PEM format instead of RFC4716 format",
+    derivation_rounds=argument(
+        help="the number of KDF (key derivation function) rounds used. If nothing is specified and using RFC4716, then a default of 100 will be used",
+        type=int
+    ),
+    comment=argument(
+        help="The comment to use for the key",
+        type=str
+    ),
     urls=argument(
         help="when creating a new SSH key pair, the public key gets copied into the clipboard and these websites are opened",
         metavar="url"
     ),
+    force="create a new key even if another already exits",
     open_urls_for_existing_file="opens the URLs even if the idfile already exists"
 )
-def ssh_keygen(type="rsa", keysize=4096, idfile=None, urls=ssh_registration_urls, open_urls_for_existing_file=False):
+def ssh_keygen(type="ed25519", keysize=None, id_file=None, pem=False, derivation_rounds=None, comment=None, force=False, urls=ssh_registration_urls, open_urls_for_existing_file=False):
     """
     Copies ssh_config into your .ssh directory.
     If no public key is present, then this creates a
@@ -58,22 +69,36 @@ def ssh_keygen(type="rsa", keysize=4096, idfile=None, urls=ssh_registration_urls
     copies the public key into the clipboard unless you
     did not specify --open-urls
     """
-    if not idfile:
-        idfile = path.expanduser("~/.ssh/id_{}.pub".format(type))
-    if path.exists(idfile):
-        print("SSH key file {} already exists".format(idfile))
+    if not id_file:
+        id_file = path.expanduser("~/.ssh/id_{}".format(type))
+    pub_file = id_file + ".pub"
+    
+    if path.exists(id_file) and path.exists(pub_file) and not force:
+        print("SSH key file {} already exists".format(id_file))
         if not open_urls_for_existing_file:
             return
     else:
-        print("SSH key file {} does not exist, creating new one with {} and size {}".format(idfile, type, keysize))
-        tools.run("ssh-keygen", "-t", type, "-b", str(keysize), "-f", idfile)
-    if not open_urls_for_existing_file:
-        print("Skipping SSH key registration")
-        return
+        params = ["-t", type, "-f", id_file];
+        if keysize:
+            params += ["-b", str(keysize)]
+        if not pem:
+            params += ["-o"]
+            if derivation_rounds is None:
+                derivation_rounds = 100
+        if derivation_rounds:
+            if not pem:
+                params += ["-a", str(derivation_rounds)]
+            else:
+                print("Using key derivation {} with PEM is not supported".format(derivation_rounds))
+        if comment is not None:
+            params += ["-C", comment]
+        print("SSH key file {} does not exist, creating new one with {}, format {} (with {} derivation rounds) and size {}".format(id_file, type, "PEM" if pem else "RFC4716", derivation_rounds or 0, keysize or "default"))
+        tools.run("ssh-keygen", *params)
+        
     print("Copying SSH key into clipboard")
     import subprocess
-    subprocess.call("/usr/bin/pbcopy", stdin=open(idfile))
-    for url in open_urls:
+    subprocess.call("/usr/bin/pbcopy", stdin=open(pub_file))
+    for url in urls:
         print("Opening {}".format(url))
         tools.run("open", "https://uberspace.de/dashboard/authentication")
 

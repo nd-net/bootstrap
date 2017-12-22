@@ -8,16 +8,19 @@ _subparsers = _parser.add_subparsers()
 
 _default_parsers = []
 
-def argument(help=None, metavar=None, choices=None, nargs=None, required=None):
+def argument(help=None, metavar=None, choices=None, nargs=None, required=None, type=None):
     return dict(kv for kv in vars().items() if kv[1])
 
 def default(fn):
     _default_parsers.append(fn.parser_name)
     return fn
 
-def action(arg=None, **kw):
-    if callable(arg):
-        return action(None, **kw)(arg)
+def action(_=None, **kw):
+    # if action is used like this @action, then it is called with the function as its own argument,
+    # yet when it is used like @action(), then the result of the action is called with the function
+    # unify this
+    if callable(_):
+        return action(None, **kw)(_)
     def add_argument(parser, name, default, help):
         with_dashes = name.replace("_", "-")
         names = ["-{}".format(name[0]), "--{}".format(with_dashes)]
@@ -36,7 +39,7 @@ def action(arg=None, **kw):
             defaultstr = str(False)
             del args["type"]
         elif type(default) is list:
-            args["nargs"] = "*"
+            args.setdefault("nargs", "*")
             try:
                 args["type"] = type(default[0])
             except:
@@ -47,12 +50,13 @@ def action(arg=None, **kw):
         return parser
 
     def add_parser(fn):
-        action_name = arg if arg else fn.__name__.replace("_", "-")
+        action_name = fn.__name__.replace("_", "-")
         subparser = _subparsers.add_parser(action_name, help=fn.__doc__, description=fn.__doc__)
         subparser.set_defaults(action=fn)
         
         import inspect
         specs = inspect.getargspec(fn)
+        # only add arguments if all of them have defaults
         if specs.defaults and len(specs.args) == len(specs.defaults):
             for name, default in zip(specs.args, specs.defaults):
                 add_argument(subparser, name, default, kw.get(name))
