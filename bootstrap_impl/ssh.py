@@ -60,7 +60,7 @@ def assh(target="~/.ssh/assh.yml", includes=assh_config, force=False):
     force="create a new key even if another already exits",
     open_urls_for_existing_file="opens the URLs even if the idfile already exists"
 )
-def ssh_keygen(type="ed25519", keysize=None, id_file=None, pem=False, derivation_rounds=None, comment=None, force=False, urls=ssh_registration_urls, open_urls_for_existing_file=False):
+def ssh_keygen(type="ed25519", keysize=None, id_file="", pem=False, derivation_rounds=None, comment=None, force=False, urls=ssh_registration_urls, open_urls_for_existing_file=False):
     """
     Copies ssh_config into your .ssh directory.
     If no public key is present, then this creates a

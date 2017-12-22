@@ -30,13 +30,14 @@ def action(_=None, **kw):
             args.update(help)
         if default == False:
             args["action"] = "store_true"
+            defaultstr = None
             del args["type"]
         elif default == True:
             help = args.get("help")
             if help:
                 args["help"] = "disable " + help
             args["action"] = "store_false"
-            defaultstr = str(False)
+            defaultstr = None
             del args["type"]
         elif type(default) is list:
             args.setdefault("nargs", "*")
@@ -45,7 +46,8 @@ def action(_=None, **kw):
             except:
                 del args["type"]
             defaultstr = "[{}]".format(", ".join(default))
-        args["help"] = "{help}\n(default: {defaultstr})".format(defaultstr=defaultstr, **args)
+        if defaultstr and default is not None:
+            args["help"] = "{help}\n(default: {defaultstr})".format(defaultstr=defaultstr, **args)
         parser.add_argument(*names, **args)
         return parser
 
