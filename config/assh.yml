@@ -13,6 +13,10 @@ hosts:
         User: nd
         Inherits: ipv6
     
+    limetta:
+        HostName: limetta.local
+        User: pi
+    
     beka-gateway:
         HostName: gateway.beka-software.at
         User: dev
@@ -44,12 +48,11 @@ defaults:
         
         OnConnect:
         # Alert me with a Desktop notification
-        - notify New SSH connection to {{.Host.Prototype}} at {{.Stats.ConnectedAt}}
+        - "notify New SSH connection to {{.Host.Prototype}} at {{.Stats.ConnectedAt}}"
         # Write the host prototype to the terminal stderr
-        - write New SSH connection to {{.Host.Prototype}}
+        - "write New SSH connection to {{.Host.Prototype}}\n"
 
         OnDisconnect:
-        # write on terminal and in a Desktop notification some statistics about the finished connection
-        - "write  SSH connection to {{.Host.HostName}} closed, {{.Stats.WrittenBytes }} bytes written in {{.Stats.ConnectionDuration}} ({{.Stats.AverageSpeed}}bps)"
         - "notify SSH connection to {{.Host.HostName}} closed, {{.Stats.WrittenBytes }} bytes written in {{.Stats.ConnectionDuration}} ({{.Stats.AverageSpeed}}bps)"
+        - "write SSH connection to {{.Host.HostName}} closed, {{.Stats.WrittenBytes }} bytes written in {{.Stats.ConnectionDuration}} ({{.Stats.AverageSpeed}}bps)\n"
 
