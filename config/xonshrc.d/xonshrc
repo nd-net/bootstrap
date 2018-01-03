@@ -69,4 +69,11 @@ aliases["rt"] = "rmtrash"
 aliases["cdf"] = lambda: aliases["cd"]([$(pwdf)[:-1]])
 aliases["ssh"] = "assh wrapper ssh"
 
+# xontribs
+
+xontrib load vox
+xontrib load autoxsh
+
+# cleanup
+
 del _relpath

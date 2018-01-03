@@ -6,3 +6,5 @@ ipython-genutils
 gnureadline
 appscript
 pyyaml
+argcomplete
+xonsh-autoxsh
