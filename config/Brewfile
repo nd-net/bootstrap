@@ -43,6 +43,7 @@ cask 'hazel'
 cask 'icons8'
 cask 'kaleidoscope'
 cask 'karabiner-elements'                   # launch:Karabiner-Elements
+cask 'knockknock'
 cask 'launchbar'                            # launch
 cask 'logitech-options'                     # launch
 cask 'paw'                                  # launch

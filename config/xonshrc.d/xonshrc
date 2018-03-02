@@ -68,6 +68,7 @@ aliases["grep"] = "grep --color=auto"
 aliases["rt"] = "rmtrash"
 aliases["cdf"] = lambda: aliases["cd"]([$(pwdf)[:-1]])
 aliases["ssh"] = "assh wrapper ssh"
+aliases["ql"] = "qlmanage -p"
 
 # xontribs
 

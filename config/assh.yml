@@ -14,8 +14,9 @@ hosts:
         Inherits: ipv6
     
     limetta:
-        HostName: limetta.local
+        HostName: limetta.nd-com.net
         User: pi
+        Inherits: ipv6
     
     beka-gateway:
         HostName: gateway.beka-software.at
