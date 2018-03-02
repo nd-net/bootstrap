@@ -48,6 +48,7 @@ cask 'logitech-options'                     # launch
 cask 'paw'                                  # launch
 cask 'pdfpen'
 cask 'soulver'                              # launch
+cask 'screens-connect'
 cask 'sourcetree'                           # launch
 cask 'textmate'
 cask 'ukelele'
@@ -92,7 +93,7 @@ mas 'MindNode 5',           id: 1289197285
 mas 'MS Remote Desktop',    id:  715768417
 mas 'Pixelmator',           id:  407963104
 mas 'Reeder',               id:  880001334
-mas 'Screens',              id:  446107677
+mas 'Screens 4',            id: 1224268771
 mas 'SSH Config Editor',    id: 1109319285
 mas 'The Archive Browser',  id:  510232205
 mas 'The Unarchiver',       id:  425424353
