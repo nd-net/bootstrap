@@ -42,6 +42,7 @@ def xpip(xonsh_requirements=xonsh_requirements):
     tools.run("xonsh", "-c", " ".join(args))
 
 @default
+@upgrade
 @action
 def pipdate():
     """
@@ -50,6 +51,7 @@ def pipdate():
     tools.run("pipdate3")
 
 @default
+@upgrade
 @action
 def xpipdate():
     """

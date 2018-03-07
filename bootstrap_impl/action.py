@@ -7,12 +7,17 @@ _parser = argparse.ArgumentParser(
 _subparsers = _parser.add_subparsers()
 
 _default_parsers = []
+_upgrade_parsers = []
 
 def argument(help=None, metavar=None, choices=None, nargs=None, required=None, type=None):
     return dict(kv for kv in vars().items() if kv[1])
 
 def default(fn):
     _default_parsers.append(fn.parser_name)
+    return fn
+
+def upgrade(fn):
+    _upgrade_parsers.append(fn.parser_name)
     return fn
 
 def action(_=None, **kw):
@@ -84,18 +89,22 @@ def print_help():
     _parser.print_help()
 
 def add_all_configuration(*except_configuration):
-    for config in except_configuration:
-        try:
-            _default_parsers.remove(config)
-        except ValueError:
-            pass
-    def execute_all(**kw):
-        for name in _default_parsers:
-            parser = _subparsers.choices[name]
-            parser.get_default("action")(**kw)
+    def add_configuration(name, parsers):
+        for config in except_configuration:
+            try:
+                parsers.remove(config)
+            except ValueError:
+                pass
+        def execute_all(**kw):
+            for name in parsers:
+                parser = _subparsers.choices[name]
+                parser.get_default("action")(**kw)
 
-    all = _subparsers.add_parser("all", parents=[], conflict_handler="resolve", help="Executes all options using default arguments: {}".format(_default_parsers))
-    all.set_defaults(action=execute_all)
+        all = _subparsers.add_parser(name, parents=[], conflict_handler="resolve", help="Executes {} options using default arguments: {}".format(name, parsers))
+        all.set_defaults(action=execute_all)
+    
+    add_configuration("all", _default_parsers)
+    add_configuration("upgrade", _upgrade_parsers)
     
     help = _subparsers.add_parser("help", help="Print help information. Similar to -h")
     help.set_defaults(action=print_help)

@@ -16,6 +16,7 @@ def ensure_brew_exists():
         tools.run('ruby', '-e', script)
 
 @default
+@upgrade
 @action(
     brewfiles="The files to be used for homebrew",
     update="update existing homebrew packages",
