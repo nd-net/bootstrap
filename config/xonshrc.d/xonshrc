@@ -30,6 +30,7 @@ def _path_from_helper():
     return split($(/usr/libexec/path_helper -c))[-1]
 
 _patch_EnvPath()
+
 $PATH.append_shell(_path_from_helper(), True)
 $PATH.append_shell(_relpath('..', '..', 'bin'), True)
 
@@ -69,6 +70,7 @@ aliases["rt"] = "rmtrash"
 aliases["cdf"] = lambda: aliases["cd"]([$(pwdf)[:-1]])
 aliases["ssh"] = "assh wrapper ssh"
 aliases["ql"] = "qlmanage -p"
+aliases["op-signin"] = lambda args: ${...}.update({"OP_SESSION_{}".format(args[0]): $(op signin --output=raw @(args[0])).strip()})
 
 # xontribs
 
@@ -78,3 +80,5 @@ xontrib load autoxsh
 # cleanup
 
 del _relpath
+del _patch_EnvPath
+del _path_from_helper
