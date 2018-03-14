@@ -4,7 +4,7 @@ tap 'caskroom/drivers'
 
 # Standard Brews
 brew 'assh'
-brew 'bash-completion'
+brew 'bash-completion2'
 brew 'clang-format'
 brew 'csshx'
 brew 'git'
