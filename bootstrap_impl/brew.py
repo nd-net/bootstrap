@@ -40,3 +40,12 @@ def brew(brewfiles=brewfiles, update=True, cleanup=True):
     if cleanup:
         tools.run("brew", "cleanup")
         tools.run("brew", "cask", "cleanup")
+
+@default
+@upgrade
+@action
+def anon(enable=False):
+    """
+    Executes brew analytics off
+    """
+    tools.run("brew", "analytics", "on" if enable else "off")
