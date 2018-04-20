@@ -1,0 +1,2 @@
+#!/bin/sh
+mdfind -name index.lock -0|xargs -0 rmtrash
