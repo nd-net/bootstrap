@@ -5,3 +5,4 @@ gnureadline
 appscript
 pyyaml
 argcomplete
+click
