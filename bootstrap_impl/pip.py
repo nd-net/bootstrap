@@ -27,6 +27,7 @@ def pip(requirements=requirements):
         tools.run(*args)
 
 @default
+@upgrade
 @action(
     xonsh_requirements="The files used for the requirements"
 )
@@ -48,6 +49,7 @@ def pipdate():
     """
     Update existing Python packages. Requires the python egg pipdate.
     """
+    tools.run("pip3", "install", "--upgrade", "pip")
     tools.run("pipdate3")
 
 @default

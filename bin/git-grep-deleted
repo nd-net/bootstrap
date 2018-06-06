@@ -1,0 +1,9 @@
+#!/usr/bin/env xonsh
+import re
+gitstatus = $(git status)
+deleted = re.findall(r"deleted:.*?([^/]+)\.\w+$", gitstatus, re.MULTILINE)
+if deleted:
+    print("Searching for")
+    for item in deleted:
+        print("  * {}".format(item))
+    grep -r @("|".join(re.escape(i) for i in deleted)) *

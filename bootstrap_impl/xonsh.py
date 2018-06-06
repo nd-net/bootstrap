@@ -36,7 +36,7 @@ def applySourceLines(rcfile, sourceLines):
     target="The target file where the configurations should be integrated",
     force="If enabled, then sources are not checked if they exist"
 )
-def xonshrc(sources=sources, target="~/.xonshrc", force=False):
+def xonshrc(sources=sources, target="~/.config/xonsh/rc.xsh", force=False):
     """
     Sources the given configurations into a target file.
     """

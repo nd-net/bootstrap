@@ -95,9 +95,10 @@ mas 'MS Remote Desktop',    id:  715768417
 mas 'Pixelmator',           id:  407963104
 mas 'Reeder',               id:  880001334
 mas 'Screens 4',            id: 1224268771
+mas 'StopTheMadness',       id: 1376402589 # launch
 mas 'SSH Config Editor',    id: 1109319285
 mas 'The Archive Browser',  id:  510232205
 mas 'The Unarchiver',       id:  425424353
-mas 'Tweetbot',             id:  557168941
+mas 'Tweetbot 3',           id: 1384080005
 mas 'Xcode',                id:  497799835
 mas 'xScope',               id:  447661441
