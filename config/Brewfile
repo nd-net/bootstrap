@@ -48,9 +48,11 @@ cask 'launchbar'                            # launch
 cask 'logitech-options'                     # launch
 cask 'paw'                                  # launch
 cask 'pdfpen'
+cask 'reflector'                            # launch
 cask 'soulver'                              # launch
 cask 'screens-connect'
 cask 'sourcetree'                           # launch
+cask 'suspicious-package'
 cask 'textmate'
 cask 'ukelele'
 cask 'vagrant'
@@ -71,7 +73,6 @@ cask 'qlswift'
 cask 'qlvideo'
 cask 'quicklook-csv'
 cask 'quicklook-json'
-cask 'suspicious-package'
 
 # Fonts
 tap 'caskroom/fonts'
@@ -91,7 +92,7 @@ mas 'JSON Editor',          id:  567740330
 mas 'Just Press Record',    id:  979561272
 mas 'Magic Number 2',       id:  737047715
 mas 'MindNode 5',           id: 1289197285
-mas 'MS Remote Desktop',    id:  715768417
+mas 'MS Remote Desktop 10', id: 1295203466
 mas 'Pixelmator',           id:  407963104
 mas 'Reeder',               id:  880001334
 mas 'Screens 4',            id: 1224268771
