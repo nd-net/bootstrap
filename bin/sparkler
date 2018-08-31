@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+
+import sys
+import os, plistlib, urllib.request
+
+def find_sparkle_apps(directory):
+    for root, dirs, files in os.walk(directory):
+        for d in dirs:
+            if ("sparkle.framework" == d.lower()):
+                yield os.path.join(root, "../..")
+
+def find_feed_url(app):
+    if not app:
+        return None
+    info_plist = os.path.join(app, "Contents/Info.plist")
+    try:
+        with open(info_plist, "rb") as info:
+            plist = plistlib.load(info)
+            return plist["SUFeedURL"]
+    except:
+        return None
+        
+def get_appcast(url):
+    if not url:
+        return None
+        
+    import xml.etree.ElementTree as ET
+    
+    try:
+        with urllib.request.urlopen(url) as feed:
+            tree = ET.parse(feed)
+            root = tree.getroot()
+            return root
+    except:
+        return None
+
+def get_last_pubDate(root):
+    if not root:
+        return None
+    import email.utils
+    
+    items = {}
+    
+    for item in root.iter("item"):
+        try:
+            pubdate = item.get("pubDate")
+            items[email.utils.parsedate_to_datetime(pubdate.text)] = item
+        except:
+            pass
+    
+    if not items:
+        return None
+    lastDate = max(items.keys())
+    return items[lastDate]
+    
+def sparkle(directories):
+    for directory in directories:
+        for app in find_sparkle_apps(directory):
+            url = find_feed_url(app)
+            appcast = get_appcast(url)
+            date = get_last_pubDate(appcast)
+            
+            if date:
+                print(f"{app} {date}")
+                sys.exit(1)
+
+sparkle(sys.argv[1:])
