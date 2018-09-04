@@ -1,0 +1,13 @@
+---
+# Use the Google C++ style by default
+BasedOnStyle:  Google
+# but don't have a maximum line length (Objective C tends to be long, screens tend to be large)
+ColumnLimit: 0
+IndentWidth: 4
+
+# Use @property (assign) BOOL bar instead of @property(assign)
+ObjCSpaceAfterProperty: true
+
+# Do not add a space after @[] or @{} - @[@"Foo"] instead of @[ @"Foo"] 
+SpacesInContainerLiterals: false
+
