@@ -74,6 +74,10 @@ cask 'qlvideo'
 cask 'quicklook-csv'
 cask 'quicklook-json'
 
+# Color pickers
+cask 'colorpicker-developer'
+cask 'colorpicker-skalacolor'
+
 # Fonts
 tap 'caskroom/fonts'
 cask 'font-source-code-pro'
@@ -88,6 +92,7 @@ mas 'DaisyDisk',            id:  411643860
 mas 'Day One',              id: 1055511498
 mas 'Deliveries',           id:  924726344
 mas 'Fantastical 2',        id:  975937182 # launch
+mas 'Fileloupe',            id:  944693506
 mas 'JSON Editor',          id:  567740330
 mas 'Just Press Record',    id:  979561272
 mas 'Magic Number 2',       id:  737047715
@@ -96,10 +101,11 @@ mas 'MS Remote Desktop 10', id: 1295203466
 mas 'Pixelmator',           id:  407963104
 mas 'Reeder',               id:  880001334
 mas 'Screens 4',            id: 1224268771
-mas 'StopTheMadness',       id: 1376402589 # launch
 mas 'SSH Config Editor',    id: 1109319285
+mas 'StopTheMadness',       id: 1376402589 # launch
 mas 'The Archive Browser',  id:  510232205
 mas 'The Unarchiver',       id:  425424353
 mas 'Tweetbot 3',           id: 1384080005
+mas 'Videoloupe',           id: 1144728106
 mas 'Xcode',                id:  497799835
 mas 'xScope',               id:  447661441
