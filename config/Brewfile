@@ -41,6 +41,7 @@ cask 'forklift'                             # launch
 cask 'google-chrome'
 cask 'hazel'
 cask 'icons8'
+cask 'istat-menus'                          # launch
 cask 'kaleidoscope'
 cask 'karabiner-elements'                   # launch:Karabiner-Elements
 cask 'knockknock'
@@ -49,16 +50,18 @@ cask 'logitech-options'                     # launch
 cask 'paw'                                  # launch
 cask 'pdfpen'
 cask 'reflector'                            # launch
-cask 'soulver'                              # launch
 cask 'screens-connect'
+cask 'soulver'                              # launch
 cask 'sourcetree'                           # launch
 cask 'suspicious-package'
+cask 'swimat'                               # launch
 cask 'textmate'
 cask 'ukelele'
 cask 'vagrant'
 cask 'virtualbox'
 cask 'vlc'
 cask 'wireshark'
+
 #cask 'scriptarian' # not yet available
 
 # Quicklook plugins
