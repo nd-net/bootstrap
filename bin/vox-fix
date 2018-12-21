@@ -1,0 +1,12 @@
+#!/bin/sh
+# Fixes vox environments if xonsh is installed via brew
+# (in this case, vox creates a venv that points to the xonsh Python
+# instead of the system Python)
+# The script expects a list of virtual environments that should be fixed
+
+for env in $@; do
+    loc="$VIRTUALENV_HOME/$env"
+    rm -r $loc
+    virtualenv $loc
+    touch "$loc/pyvenv.cfg"
+done
