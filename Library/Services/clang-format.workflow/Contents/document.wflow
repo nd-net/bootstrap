@@ -59,8 +59,7 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>export PATH=$PATH:/Users/q343118/Development/bootstrap/bin:/usr/local/bin
-clang-format -style=file -assume-filename=$(bootstrap location)/config/foo.m|objc-beautify</string>
+					<string>clang-format -style=file -assume-filename=$(bootstrap location)/config/foo.m|objc-beautify</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>

@@ -8,7 +8,7 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>clang-formaz</string>
+				<string>clang-format</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>runWorkflowAsService</string>
