@@ -74,8 +74,8 @@ aliases["op-signin"] = lambda args: ${...}.update({"OP_SESSION_{}".format(args[0
 
 # xontribs
 
-xontrib load vox
 xontrib load autoxsh
+xontrib load bashisms
 
 # cleanup
 
