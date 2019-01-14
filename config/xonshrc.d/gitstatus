@@ -16,9 +16,9 @@ def create_gitstatus_prompt():
 	                                    'staged', 'stashed', 'operations'])
 
 	def _check_output(*args, **kwargs):
-	    kwargs.update(dict(env=builtins.__xonsh_env__.detype(),
+	    kwargs.update(dict(env=builtins.__xonsh__.env.detype(),
 	                       stderr=subprocess.DEVNULL,
-	                       timeout=builtins.__xonsh_env__['VC_BRANCH_TIMEOUT'],
+	                       timeout=builtins.__xonsh__.env['VC_BRANCH_TIMEOUT'],
 	                       universal_newlines=True
 	                       ))
 	    return subprocess.check_output(*args, **kwargs)
@@ -56,7 +56,7 @@ def create_gitstatus_prompt():
 
 
 	def _get_def(key):
-	    def_ = builtins.__xonsh_env__.get('XONSH_GITSTATUS_' + key)
+	    def_ = builtins.__xonsh__.env.get('XONSH_GITSTATUS_' + key)
 	    return def_ if def_ is not None else _DEFS[key]
 
 

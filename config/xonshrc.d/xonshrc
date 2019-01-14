@@ -43,6 +43,7 @@ $XONSH_COLOR_STYLE =  "native" #"fruity"
 $DYNAMIC_CWD_WIDTH = '25%'
 $XONSH_STDERR_PREFIX = "{BACKGROUND_RED}"
 $XONSH_STDERR_POSTFIX = "{NO_COLOR}"
+#$SHELL_TYPE = "readline"
 
 # prompt
 
