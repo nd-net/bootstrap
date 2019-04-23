@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+import sys, re, os, tempfile, subprocess
+
+groups = ("left", "right")
+pattern = r'\"(?P<{}>.*)\"\) is not equal to \(\"(?P<{}>.*)\"(?:\) - (?P<description>.*))?'.format(*groups)
+
+for match in re.finditer(pattern, sys.stdin.read(), re.DOTALL):
+    with tempfile.TemporaryDirectory() as tmpdir:
+        command = ["/usr/bin/env", "ksdiff"]
+        for group in groups:
+            filename = os.path.join(tmpdir, group)
+            with open(filename, "wt") as f:
+                f.write(match.group(group))
+            command.append(filename)
+        subprocess.check_output(command)
