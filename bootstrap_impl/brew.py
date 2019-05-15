@@ -49,3 +49,10 @@ def anon(enable=False):
     Executes brew analytics off
     """
     tools.run("brew", "analytics", "on" if enable else "off")
+
+@action
+def vbox():
+    """
+    Reinstalls virtual box (for upgrading it)
+    """
+    tools.run("brew", "cask", "reinstall", "virtualbox")
