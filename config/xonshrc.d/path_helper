@@ -1,0 +1,40 @@
+# Adds paths from the path_helper tool to the system, as well as bootstrap's bin itself
+
+def _patch_EnvPath():
+    from xonsh.tools import EnvPath
+    import os.path
+    
+    def append_shell(self, shell_str, use_abs_path=False):
+        """Appends a shell string to the path. The shell string may contain : as separators"""
+        paths = EnvPath(shell_str)
+        for path in paths:
+            if path in self:
+                continue
+            if use_abs_path:
+                path = os.path.abspath(path)
+            if path in self:
+                continue
+            # this is a bugfix: path_helper sometimes appends ; to a path although it should not
+            if not os.path.exists(path) and os.path.exists(path[:-1]):
+                path = path[:-1]
+            self.append(path)
+    EnvPath.append_shell = append_shell
+
+def _relpath(*args):
+    import os.path
+    return os.path.join(os.path.dirname(__file__), *args)
+
+def _path_from_helper():
+    from shlex import split
+    return split($(/usr/libexec/path_helper -c))[-1]
+
+_patch_EnvPath()
+
+$PATH.append_shell(_path_from_helper(), True)
+$PATH.append_shell(_relpath('..', '..', 'bin'), True)
+
+# cleanup
+
+del _relpath
+del _patch_EnvPath
+del _path_from_helper
