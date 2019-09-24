@@ -70,7 +70,6 @@ aliases["grep"] = "grep --color=auto"
 aliases["rt"] = "rmtrash"
 aliases["cdf"] = lambda: aliases["cd"]([$(pwdf)[:-1]])
 aliases["ssh"] = "assh wrapper ssh"
-aliases["ql"] = "qlmanage -p"
 aliases["op-signin"] = lambda args: ${...}.update({"OP_SESSION_{}".format(args[0]): $(op signin --output=raw @(args[0])).strip()})
 
 # xontribs
