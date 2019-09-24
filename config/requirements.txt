@@ -6,3 +6,4 @@ appscript
 pyyaml
 argcomplete
 click
+fuzzysearch
