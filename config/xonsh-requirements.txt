@@ -1,5 +1,4 @@
 pipdate
 pygments
-xonsh[ptk]
 xonsh-autoxsh
 xontrib-avox
