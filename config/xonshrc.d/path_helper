@@ -1,40 +1,43 @@
 # Adds paths from the path_helper tool to the system, as well as bootstrap's bin itself
 
-def _patch_EnvPath():
-    from xonsh.tools import EnvPath
-    import os.path
+def _update_path(variable, prefix):
+    import os, sys
+    def paths(file_or_dir):
+        file_or_dir = os.path.expanduser(file_or_dir)
+        if os.path.isdir(file_or_dir):
+            files = [os.path.join(file_or_dir, i) for i in os.listdir(file_or_dir)]
+        elif os.path.isfile(file_or_dir):
+            files = [file_or_dir]
+        else:
+            files = []
+        for file in files:
+            try:
+                with open(file, "rt") as paths:
+                    for line in paths:
+                        path = line.strip()
+                        path = os.path.expanduser(path)
+                        path = os.path.abspath(path)
+                        yield path
+            except Exception as e:
+                print(e, file=sys.stderr)
     
-    def append_shell(self, shell_str, use_abs_path=False):
-        """Appends a shell string to the path. The shell string may contain : as separators"""
-        paths = EnvPath(shell_str)
-        for path in paths:
-            if path in self:
-                continue
-            if use_abs_path:
-                path = os.path.abspath(path)
-            if path in self:
-                continue
-            # this is a bugfix: path_helper sometimes appends ; to a path although it should not
-            if not os.path.exists(path) and os.path.exists(path[:-1]):
-                path = path[:-1]
-            self.append(path)
-    EnvPath.append_shell = append_shell
+    for directory in ('/etc/', '~/.config/'):
+        for name in (prefix, prefix + '.d'):
+            location = os.path.join(directory, name)
+            for path in paths(location):
+                variable.append(path)
 
 def _relpath(*args):
     import os.path
-    return os.path.join(os.path.dirname(__file__), *args)
+    path = os.path.join(os.path.dirname(__file__), '..', '..', 'bin')
+    path = os.path.abspath(path)
+    return path
 
-def _path_from_helper():
-    from shlex import split
-    return split($(/usr/libexec/path_helper -c))[-1]
+_update_path($PATH, 'paths')
+try:
+    _update_path($MANPATH, 'manpaths')
+except:
+    pass
+$PATH.append(_relpath('..', '..', 'bin'))
 
-_patch_EnvPath()
-
-$PATH.append_shell(_path_from_helper(), True)
-$PATH.append_shell(_relpath('..', '..', 'bin'), True)
-
-# cleanup
-
-del _relpath
-del _patch_EnvPath
-del _path_from_helper
+del _update_path, _relpath
