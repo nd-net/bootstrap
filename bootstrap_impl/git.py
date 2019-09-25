@@ -3,6 +3,9 @@ from . import path, tools
 
 target = "~/.config/git/ignore"
 
+def git_config(args, global_setting=True):
+    return ["/usr/bin/env", "git", "config", "--global" if global_setting else ""] + args
+
 def ensure_path(location, target, force):
     etarget = path.expanduser(target)
     clocation = path.compactuser(location)
@@ -18,15 +21,24 @@ def ensure_path(location, target, force):
         # touch
         with open(etarget, "wt"):
             pass
-    tools.run("/usr/bin/env", "git", "config", "--global", "core.excludesfile", etarget)
+    tools.run(*git_config(["core.excludesfile", etarget]))
 
 @default
 @action
-def gitignore(target=target, force=False):
+def gitignore(target=target, force=False, global_setting=True):
     """
-    Updates the global gitignore.
+    Updates gitignore.
     """
     import subprocess
-    location = subprocess.check_output(["/usr/bin/env", "git", "config", "--global", "core.excludesfile"]).strip()
+    location = subprocess.check_output(git_config(["core.excludesfile"], global_setting=global_setting)).strip()
     
     ensure_path(location, target, force)
+
+@default
+@action
+def git_prune_tags_on_fetch(value=True, global_setting=True):
+    """
+    Configures git to prune the tags when fetching from remote
+    """
+    # from https://stackoverflow.com/a/54297675/112964
+    tools.run(*git_config(["fetch.pruneTags", "true" if value else "false"], global_setting=global_setting))
