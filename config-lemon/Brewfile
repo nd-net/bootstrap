@@ -1,1 +1,8 @@
 #cask 'parallels-desktop'                    # launch
+cask 'beatunes'
+cask 'boxer'
+cask 'gog-galaxy'
+cask 'minecraft'
+cask 'steam'
+
+mas 'TuneSpan',             id:  528459889
