@@ -1,26 +1,21 @@
-tap 'homebrew/bundle'
 tap 'homebrew/core'
-tap 'caskroom/drivers'
+tap 'homebrew/bundle'
+tap 'homebrew/cask'
 
 # Standard Brews
 brew 'assh'
 brew 'bash-completion2'
 brew 'clang-format'
-brew 'csshx'
 brew 'git'
 brew 'm-cli'
-brew 'mobile-shell'
 brew 'p7zip'
 brew 'python3'
 brew 'rmtrash'
 brew 'tag'
 brew 'terminal-notifier'
 brew 'testdisk'
-brew 'tldr'
-brew 'tmux'
 brew 'tree'
 brew 'xonsh'
-brew 'yasm'
 brew 'youtube-dl'
 
 # Brews that depend on Java
@@ -32,12 +27,10 @@ cask '1password'                            # launch
 cask 'aerial'
 cask 'bartender'                            # launch
 cask 'carbon-copy-cloner'
-cask 'chocolat'
+cask 'coda'
 cask 'coderunner'
 cask 'dash'
 cask 'dropbox'
-cask 'epubquicklook'
-cask 'forklift'                             # launch
 cask 'google-chrome'
 cask 'hazel'
 cask 'icons8'
@@ -46,26 +39,27 @@ cask 'kaleidoscope'
 cask 'karabiner-elements'                   # launch:Karabiner-Elements
 cask 'knockknock'
 cask 'launchbar'                            # launch
-cask 'logitech-options'                     # launch
 cask 'paw'                                  # launch
 cask 'pdfpen'
 cask 'reflector'                            # launch
-cask 'screens-connect'
+cask 'slack'
 cask 'soulver'                              # launch
 cask 'sourcetree'                           # launch
 cask 'suspicious-package'
-cask 'swimat'                               # launch
+cask 'techstoreclub-simple-comic'
 cask 'textmate'
+cask 'transmission'
 cask 'ukelele'
-cask 'vagrant'
 cask 'virtualbox'
+cask 'virtualbox-extension-pack'
 cask 'vlc'
 cask 'wireshark'
-
-#cask 'scriptarian' # not yet available
+cask 'wwdc'
+cask 'zeplin'
 
 # Quicklook plugins
 cask 'betterzipql'
+cask 'epubquicklook'
 cask 'qlcolorcode'
 cask 'qlgradle'
 cask 'qlimagesize'
@@ -82,10 +76,23 @@ cask 'colorpicker-developer'
 cask 'colorpicker-skalacolor'
 
 # Fonts
-tap 'caskroom/fonts'
+tap 'homebrew/cask-fonts'
 cask 'font-source-code-pro'
 cask 'font-source-sans-pro'
 cask 'font-fira-code'
+
+# Drivers
+tap 'homebrew/cask-drivers'
+cask 'logitech-options'                     # launch
+cask 'tiptoi-manager'
+cask 'canon-pixma-scanner-driver-ica'
+cask 'canon-eos-utility'
+
+# (Older) Versions
+tap 'homebrew/cask-versions'
+cask 'forklift2'                            # launch
+cask 'soulver2'
+cask 'tower2'
 
 # Mac App Store
 mas '1Blocker',             id: 1107421413 # launch
@@ -96,13 +103,21 @@ mas 'Day One',              id: 1055511498
 mas 'Deliveries',           id:  924726344
 mas 'Fantastical 2',        id:  975937182 # launch
 mas 'Fileloupe',            id:  944693506
+mas 'GarageBand',           id:  682658836
+mas 'iMovie',               id:  408981434
+mas 'iPhoto',               id:  408981381
 mas 'JSON Editor',          id:  567740330
 mas 'Just Press Record',    id:  979561272
+mas 'Keynote',              id:  409183694
 mas 'Magic Number 2',       id:  737047715
-mas 'MindNode 5',           id: 1289197285
+mas 'MindNode',             id: 1289197285
 mas 'MS Remote Desktop 10', id: 1295203466
+mas 'Numbers',              id:  409203825
+mas 'Pages',                id:  409201541
+mas 'PDFScanner',           id:  410968114
+mas 'PhotoSweeper',         id:  463362050
 mas 'Pixelmator',           id:  407963104
-mas 'Reeder',               id:  880001334
+mas 'Reeder 4',             id: 1449412482
 mas 'Screens 4',            id: 1224268771
 mas 'SSH Config Editor',    id: 1109319285
 mas 'StopTheMadness',       id: 1376402589 # launch
@@ -112,3 +127,15 @@ mas 'Tweetbot 3',           id: 1384080005
 mas 'Videoloupe',           id: 1144728106
 mas 'Xcode',                id:  497799835
 mas 'xScope',               id:  447661441
+
+# Aspirational
+#brew 'csshx'
+#brew 'mobile-shell'
+#brew 'tmux'
+#brew 'yasm'
+#cask 'chocolat'
+#cask 'screens-connect'
+#cask 'vagrant'
+
+#tap 'tldr-pages/tldr'
+#brew 'tldr'
