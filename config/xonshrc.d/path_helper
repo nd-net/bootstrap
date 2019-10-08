@@ -1,3 +1,4 @@
+#!/usr/bin/env xonsh
 # Adds paths from the path_helper tool to the system, as well as bootstrap's bin itself
 
 def _update_path(variable, prefix):

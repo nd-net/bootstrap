@@ -1,3 +1,4 @@
+#!/usr/bin/env xonsh
 # gitstatus
 
 def create_gitstatus_prompt():
