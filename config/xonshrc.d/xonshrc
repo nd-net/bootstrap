@@ -21,7 +21,7 @@ else:
     $PROMPT_FIELDS['prompt_end'] = '{INTENSE_GREEN}$'
 
 $PROMPT = "{env_name:{} }{BLUE}{short_cwd} {prompt_end}{NO_COLOR} "
-$BOTTOM_TOOLBAR = "{$XONSH_VERSION} {INTENSE_YELLOW}{user}{BOLD_GREEN}@{#ff1493}{hostname}{gitstatus:{{BOLD_GREEN}}|{}}"
+$BOTTOM_TOOLBAR = $BOTTOM_TOOLBAR = "{$XONSH_VERSION} {INTENSE_YELLOW}{user}{#ff1493}@{hostname}{NO_COLOR} {gitstatus}{NO_COLOR}" + 100 * " " 
 
 $MULTILINE_PROMPT='{INTENSE_GREEN}.'
 
