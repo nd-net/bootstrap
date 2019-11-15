@@ -8,6 +8,7 @@ brew 'bash-completion2'
 brew 'clang-format'
 brew 'git'
 brew 'm-cli'
+brew 'nativefier' # Electron Wrapper for any Webpage
 brew 'p7zip'
 brew 'python3'
 brew 'rmtrash'
