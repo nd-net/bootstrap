@@ -21,7 +21,7 @@ else:
     $PROMPT_FIELDS['prompt_end'] = '{INTENSE_GREEN}$'
 
 $PROMPT = "{env_name:{} }{BLUE}{short_cwd} {prompt_end}{NO_COLOR} "
-$BOTTOM_TOOLBAR = "{$XONSH_VERSION} {INTENSE_YELLOW}{user}{BOLD_GREEN}@{#ff1493}{hostname}{gitstatus:{{BOLD_GREEN}}|{}}"
+$BOTTOM_TOOLBAR = $BOTTOM_TOOLBAR = "{$XONSH_VERSION} {INTENSE_YELLOW}{user}{#ff1493}@{hostname}{NO_COLOR} {gitstatus}{NO_COLOR}" + 100 * " " 
 
 $MULTILINE_PROMPT='{INTENSE_GREEN}.'
 
@@ -39,6 +39,9 @@ aliases["rt"] = "rmtrash"
 aliases["cdf"] = lambda: aliases["cd"]([$(pwdf)[:-1]])
 aliases["ssh"] = "assh wrapper ssh"
 aliases["op-signin"] = lambda args: ${...}.update({"OP_SESSION_{}".format(args[0]): $(op signin --output=raw @(args[0])).strip()})
+# make the elipsis an alias for cd ..
+for i in range(1, 4):
+    aliases["…" * i] = ["cd", "/".join([".."] * i)]
 
 # xontribs
 
