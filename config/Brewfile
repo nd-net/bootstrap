@@ -5,7 +5,10 @@ tap 'homebrew/cask'
 # Standard Brews
 brew 'assh'
 brew 'bash-completion2'
+brew 'bat'
 brew 'clang-format'
+brew 'fd'
+brew 'fzf'
 brew 'git'
 brew 'm-cli'
 brew 'nativefier' # Electron Wrapper for any Webpage
