@@ -24,11 +24,17 @@ def _update_path(variable, prefix):
                 print(e, file=sys.stderr)
     
     for directory in ('~/.config/', '/etc/'):
-        for name in (prefix, prefix + '.d'):
+        for name in (prefix + '.d', prefix):
             location = os.path.join(directory, name)
             for path in paths(location):
-                result.append(path)
+                if path not in result:
+                    result.append(path)
     result.reverse()
+    for item in result:
+        try:
+            variable.remove(item)
+        except:
+            pass
     for item in result:
         variable.insert(0, item)
 
