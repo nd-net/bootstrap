@@ -1,6 +1,6 @@
 hosts:
     uberspace:
-        HostName: sabic.uberspace.de
+        HostName: citrus.uber.space
         User: citrus
         
     lemon:
