@@ -30,7 +30,8 @@ $MULTILINE_PROMPT='{INTENSE_GREEN}.'
 $CLICOLOR = True
 $LSCOLORS = "gxfxcxcxbxehbhAbcbCgBg" # from http://geoff.greer.fm/lscolors/"
 $EDITOR = "/usr/local/bin/mate"
-$VISUAL = "$EDITOR -w -l"
+$VISUAL = $EDITOR + " -w"
+$GIT_EDITOR = $VISUAL
 
 # aliases
 
