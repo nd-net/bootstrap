@@ -54,4 +54,5 @@ xontrib load bashisms
 # paste and run snippets from bash, zsh, fish via "! (command)"
 xontrib load sh
 # Argcomplete support for python and xonsh scripts in xonsh shell.
-xontrib load argcomplete
+# Unfortunately, argcomplete seems to want to complete mime-types everywhere, making tab useless :-(
+#xontrib load argcomplete
