@@ -2,3 +2,5 @@ pipdate
 pygments
 xonsh-autoxsh
 xontrib-avox
+xontrib-sh
+xontrib-argcomplete

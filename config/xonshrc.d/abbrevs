@@ -1,0 +1,5 @@
+#!/usr/bin/env xonsh
+# Adds abbrevs dictionary to hold user-defined command abbreviations.
+xontrib load abbrevs
+
+abbrevs['rt'] = 'rmtrash'
